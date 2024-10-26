@@ -4,7 +4,7 @@ import { integer, pgEnum, pgTable, serial, text, timestamp, varchar } from 'driz
 export const userRole = pgEnum('user_role', ['viewer', 'editor', 'admin']);
 
 export const user = pgTable('users', {
-	id: serial('id'),
+	id: serial('id').unique(),
 	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
 	updatedAt: timestamp('updated_at', { withTimezone: true })
 		.defaultNow()
@@ -20,14 +20,14 @@ export const user = pgTable('users', {
 export type User = typeof user.$inferSelect;
 
 export const session = pgTable('sessions', {
-	id: serial('id'),
+	id: serial('id').unique(),
 	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
 	updatedAt: timestamp('updated_at', { withTimezone: true })
 		.defaultNow()
 		.$onUpdate(() => sql`current_timestamp`),
 	userId: integer('user_id')
 		.notNull()
-		.references(() => user.id),
+		.references(() => user.id, { onDelete: 'cascade' }),
 	expiresAt: timestamp('expires_at', { withTimezone: true, mode: 'date' }).notNull(),
 });
 
@@ -36,14 +36,14 @@ export type Session = typeof session.$inferSelect;
 export const postStatus = pgEnum('post_status', ['draft', 'published', 'archived']);
 
 export const post = pgTable('posts', {
-	id: serial('id'),
+	id: serial('id').unique(),
 	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
 	updatedAt: timestamp('updated_at', { withTimezone: true })
 		.defaultNow()
 		.$onUpdate(() => sql`current_timestamp`),
 	userId: integer('user_id')
 		.notNull()
-		.references(() => user.id),
+		.references(() => user.id, { onDelete: 'cascade' }),
 	title: varchar('title', { length: 255 }).notNull(),
 	content: text('content').notNull(),
 	status: postStatus('status').notNull().default('draft'),
@@ -52,14 +52,14 @@ export const post = pgTable('posts', {
 export type Post = typeof post.$inferSelect;
 
 export const page = pgTable('pages', {
-	id: serial('id'),
+	id: serial('id').unique(),
 	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
 	updatedAt: timestamp('updated_at', { withTimezone: true })
 		.defaultNow()
 		.$onUpdate(() => sql`current_timestamp`),
 	userId: integer('user_id')
 		.notNull()
-		.references(() => user.id),
+		.references(() => user.id, { onDelete: 'cascade' }),
 	title: varchar('title', { length: 255 }).notNull(),
 	content: text('content').notNull(),
 	status: postStatus('status').notNull().default('draft'),
