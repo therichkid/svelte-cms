@@ -20,7 +20,7 @@ export const user = pgTable('users', {
 export type User = typeof user.$inferSelect;
 
 export const session = pgTable('sessions', {
-	id: serial('id').unique(),
+	id: text('id').primaryKey(),
 	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
 	updatedAt: timestamp('updated_at', { withTimezone: true })
 		.defaultNow()

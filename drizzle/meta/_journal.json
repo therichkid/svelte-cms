@@ -8,6 +8,13 @@
       "when": 1729940130500,
       "tag": "0000_lucky_may_parker",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1729945275392,
+      "tag": "0001_red_pandemic",
+      "breakpoints": true
     }
   ]
 }
