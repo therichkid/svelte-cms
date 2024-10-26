@@ -12,7 +12,7 @@
 		<a href="/" class="btn btn-ghost text-xl">Svelte CMS</a>
 	</div>
 	<div class="flex-none">
-		<button class="btn btn-square btn-ghost">
+		<button class="btn btn-square btn-ghost" aria-label="Settings">
 			<i class="fas fa-ellipsis-h"></i>
 		</button>
 	</div>

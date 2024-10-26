@@ -1,6 +1,6 @@
 <script lang="ts">
-	import NavigationDrawer from '$lib/components/NavigationDrawer.svelte';
-	import '$lib/utils/faLibrary';
+	import NavigationDrawer from '$components/NavigationDrawer.svelte';
+	import '$utils/faLibrary';
 	import type { Snippet } from 'svelte';
 	import '../app.css';
 
