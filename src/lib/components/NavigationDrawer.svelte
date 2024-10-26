@@ -25,7 +25,7 @@
 	<div class="drawer-side">
 		<label for="navigation-drawer" aria-label="Close navigation drawer" class="drawer-overlay"
 		></label>
-		<ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+		<ul class="menu min-h-full w-80 bg-base-200 p-4 text-base-content">
 			<!-- Sidebar content here -->
 			<li><a href="/">Home</a></li>
 			<li><a href="/demo/lucia">Login</a></li>

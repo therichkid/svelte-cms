@@ -18,5 +18,5 @@ export const actions: Actions = {
 		event.cookies.delete(auth.sessionCookieName, { path: '/' });
 
 		return redirect(302, '/demo/lucia/login');
-	}
+	},
 };

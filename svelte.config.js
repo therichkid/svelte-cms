@@ -14,11 +14,11 @@ const config = {
 		adapter: adapter(),
 
 		alias: {
-			$lib: './src/lib',
 			$components: './src/lib/components',
-			$utils: './src/lib/utils'
-		}
-	}
+			$utils: './src/lib/utils',
+			$lib: './src/lib',
+		},
+	},
 };
 
 export default config;
