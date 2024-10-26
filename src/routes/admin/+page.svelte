@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import TipTapEditor from '$components/TipTapEditor.svelte';
+	import Editor from '$components/TipTap/Editor.svelte';
 	import type { PageServerData } from './$types';
 
 	let { data }: { data: PageServerData } = $props();
@@ -13,4 +13,4 @@
 	</form>
 </div>
 
-<TipTapEditor value="<p>Hello World! 🌍️</p>" />
+<Editor value="<p>Hello World! 🌍️</p>" />

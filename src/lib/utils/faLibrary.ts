@@ -1,5 +1,12 @@
 import { dom, library } from '@fortawesome/fontawesome-svg-core';
-import { faBars, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import {
+	faBars,
+	faBold,
+	faEllipsisH,
+	faItalic,
+	faStrikethrough,
+	faUnderline,
+} from '@fortawesome/free-solid-svg-icons';
 
-library.add(faBars, faEllipsisH);
+library.add(faBars, faBold, faEllipsisH, faItalic, faStrikethrough, faUnderline);
 dom.watch();
