@@ -18,7 +18,7 @@
 			</label>
 		</NavBar>
 
-		<div class="p-5">
+		<div class="h-full p-5">
 			{@render content()}
 		</div>
 	</div>
@@ -28,7 +28,8 @@
 		<ul class="menu min-h-full w-80 bg-base-200 p-4 text-base-content">
 			<!-- Sidebar content here -->
 			<li><a href="/">Home</a></li>
-			<li><a href="/demo/lucia">Login</a></li>
+			<li><a href="/login">Login</a></li>
+			<li><a href="/admin">Admin</a></li>
 		</ul>
 	</div>
 </div>

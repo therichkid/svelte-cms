@@ -26,7 +26,7 @@ const setAuthCookie = (event: RequestEvent, session: Pick<Session, 'id' | 'expir
 
 export const load: PageServerLoad = async (event) => {
 	if (event.locals.user) {
-		return redirect(302, '/demo/lucia');
+		return redirect(302, '/admin');
 	}
 	return {};
 };
@@ -59,7 +59,7 @@ export const actions: Actions = {
 		const session = await auth.createSession(existingUser.id);
 		setAuthCookie(event, session);
 
-		return redirect(302, '/demo/lucia');
+		return redirect(302, '/admin');
 	},
 	register: async (event) => {
 		const formData = await event.request.formData();
@@ -87,7 +87,7 @@ export const actions: Actions = {
 			return fail(500, { message: 'An error has occurred' });
 		}
 
-		return redirect(302, '/demo/lucia');
+		return redirect(302, '/admin');
 	},
 };
 
