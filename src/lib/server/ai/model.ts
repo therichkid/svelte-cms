@@ -7,7 +7,11 @@ if (!env.GEMINI_API_KEY) throw new Error('GEMINI_API_KEY is not set');
 const genAI = new GoogleGenerativeAI(env.GEMINI_API_KEY);
 
 const modelId = 'gemini-1.5-flash';
-const model = genAI.getGenerativeModel({ model: modelId });
+const model = genAI.getGenerativeModel({
+	model: modelId,
+	systemInstruction:
+		'You are a chatbot within a rich text editor. You can help users write text. You can also provide information and answer questions. Return your answers in HTML format.',
+});
 
 export const generateResponse = async (sessionId: string, prompt: string) => {
 	if (!sessionId) {
