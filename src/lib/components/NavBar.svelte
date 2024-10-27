@@ -4,7 +4,7 @@
 	let { children: drawerButton }: { children: Snippet } = $props();
 </script>
 
-<div class="navbar bg-base-100">
+<div class="navbar bg-base-200">
 	<div class="flex-none lg:hidden">
 		{@render drawerButton()}
 	</div>
