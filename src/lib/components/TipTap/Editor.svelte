@@ -81,7 +81,7 @@
 
 <div bind:this={bMenu}>
 	{#if editor}
-		<div class="join mb-2">
+		<div class="join">
 			<select class="join-item select select-bordered">
 				<option
 					onclick={() => editor?.chain().focus().setParagraph().run()}
