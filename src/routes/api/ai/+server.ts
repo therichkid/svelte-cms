@@ -1,6 +1,6 @@
 import { generateAIResponse } from '$lib/server/ai';
 import { validateSession } from '$lib/server/auth.js';
-import { error, json } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 
 export const POST = async (event) => {
 	const data = await event.request.json();
@@ -16,8 +16,7 @@ export const POST = async (event) => {
 	}
 
 	const response = await generateAIResponse(sessionId as string, prompt);
-
-	return json(response);
+	return new Response(response);
 };
 
 const validatePrompt = (prompt: unknown): prompt is string => {

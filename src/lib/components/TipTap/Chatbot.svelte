@@ -34,7 +34,17 @@
 			throw new Error('Failed to send request');
 		}
 
-		value = await response.json();
+		const reader = response.body!.getReader();
+		const decoder = new TextDecoder();
+
+		value = '';
+		while (true) {
+			const { done, value: chunk } = await reader.read();
+			if (done) break;
+
+			value += decoder.decode(chunk, { stream: true });
+		}
+		value += decoder.decode();
 
 		isInteracting = false;
 	};

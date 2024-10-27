@@ -25,19 +25,38 @@ export const generateResponse = async (sessionId: string, prompt: string) => {
 		const chat = model.startChat({
 			history: getChatHistory(sessionId),
 			generationConfig: {
-				maxOutputTokens: 100,
+				maxOutputTokens: 256,
 				temperature: 0.7,
 			},
 		});
 
-		const result = await chat.sendMessage(prompt);
-		const response = await result.response;
-		const responseText = response.text();
+		const { stream } = await chat.sendMessageStream(prompt);
 
-		addChatHistory(sessionId, 'user', [{ text: prompt }]);
-		addChatHistory(sessionId, 'model', [{ text: responseText }]);
+		let responseText = '';
 
-		return responseText;
+		const encoder = new TextEncoder();
+		const responseStream = new ReadableStream<Uint8Array>({
+			async start(controller) {
+				for await (const chunk of stream) {
+					const chunkText = chunk.candidates?.[0].content.parts[0].text;
+
+					if (!chunkText) {
+						continue;
+					}
+
+					controller.enqueue(encoder.encode(chunkText));
+
+					responseText += chunkText;
+				}
+
+				controller.close();
+
+				addChatHistory(sessionId, 'user', [{ text: prompt }]);
+				addChatHistory(sessionId, 'model', [{ text: responseText }]);
+			},
+		});
+
+		return responseStream;
 	} catch (e) {
 		throw new Error(`Failed to generate response: ${e}`);
 	}
