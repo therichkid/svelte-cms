@@ -46,8 +46,8 @@
 	};
 </script>
 
-<div class="join">
-	<select class="join-item select select-bordered">
+<div class="direction card flex w-fit items-center gap-2 p-2 shadow-xl">
+	<select class="select w-36">
 		<option
 			onclick={() => editor.chain().focus().setParagraph().run()}
 			selected={activeNodes.has('paragraph')}
@@ -80,36 +80,34 @@
 		</option>
 	</select>
 
-	<button
-		onclick={() => editor.chain().focus().toggleBold().run()}
-		class:btn-primary={activeNodes.has('bold')}
-		class="btn join-item"
-		aria-label="Bold"
-	>
-		<i class="fa-solid fa-bold"></i>
-	</button>
-	<button
-		onclick={() => editor.chain().focus().toggleItalic().run()}
-		class:btn-primary={activeNodes.has('italic')}
-		class="btn join-item"
-		aria-label="Italic"
-	>
-		<i class="fa-solid fa-italic"></i>
-	</button>
-	<button
-		onclick={() => editor.chain().focus().toggleUnderline().run()}
-		class:btn-primary={activeNodes.has('underline')}
-		class="btn join-item"
-		aria-label="Underline"
-	>
-		<i class="fa-solid fa-underline"></i>
-	</button>
-	<button
-		onclick={() => editor.chain().focus().toggleStrike().run()}
-		class:btn-primary={activeNodes.has('strike')}
-		class="btn join-item"
-		aria-label="Strike"
-	>
-		<i class="fa-solid fa-strikethrough"></i>
-	</button>
+	<div class="variant-soft btn-group">
+		<button
+			onclick={() => editor.chain().focus().toggleBold().run()}
+			class:variant-filled-primary={activeNodes.has('bold')}
+			aria-label="Bold"
+		>
+			<i class="fa-solid fa-bold"></i>
+		</button>
+		<button
+			onclick={() => editor.chain().focus().toggleItalic().run()}
+			class:variant-filled-primary={activeNodes.has('italic')}
+			aria-label="Italic"
+		>
+			<i class="fa-solid fa-italic"></i>
+		</button>
+		<button
+			onclick={() => editor.chain().focus().toggleUnderline().run()}
+			class:variant-filled-primary={activeNodes.has('underline')}
+			aria-label="Underline"
+		>
+			<i class="fa-solid fa-underline"></i>
+		</button>
+		<button
+			onclick={() => editor.chain().focus().toggleStrike().run()}
+			class:variant-filled-primary={activeNodes.has('strike')}
+			aria-label="Strike"
+		>
+			<i class="fa-solid fa-strikethrough"></i>
+		</button>
+	</div>
 </div>

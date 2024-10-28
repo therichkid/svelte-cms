@@ -1,17 +1,20 @@
+import { skeleton } from '@skeletonlabs/tw-plugin';
+import forms from '@tailwindcss/forms';
 import typography from '@tailwindcss/typography';
-import daisyui from 'daisyui';
+import { join } from 'path';
 import type { Config } from 'tailwindcss';
 
 export default {
-	content: ['./src/**/*.{html,js,svelte,ts}'],
+	darkMode: 'media',
+
+	content: [
+		'./src/**/*.{html,js,svelte,ts}',
+		join(require.resolve('@skeletonlabs/skeleton'), '../**/*.{html,js,svelte,ts}'),
+	],
 
 	theme: {
 		extend: {},
 	},
 
-	plugins: [typography, daisyui],
-
-	daisyui: {
-		themes: ['light', 'dark', 'night'],
-	},
-} as Config;
+	plugins: [forms, typography, skeleton({ themes: { preset: ['skeleton'] } })],
+} satisfies Config;

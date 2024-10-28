@@ -1,5 +1,13 @@
 <script lang="ts">
+	import type { PopupSettings } from '@skeletonlabs/skeleton';
+	import { popup } from '@skeletonlabs/skeleton';
 	import geminiLogo from '../../assets/gemini-logo.svg';
+
+	const menuPopup: PopupSettings = {
+		event: 'click',
+		target: 'chatbotMenu',
+		placement: 'top-end',
+	};
 
 	let { value = $bindable() }: { value: string } = $props();
 
@@ -51,46 +59,48 @@
 </script>
 
 <div class="absolute bottom-3 right-3">
-	<div class="dropdown dropdown-end dropdown-top">
-		<div tabindex="-1" role="button" class="btn btn-circle bg-white p-1 hover:bg-slate-200">
-			<img src={geminiLogo} alt="Gemini Logo" />
-		</div>
-		<div tabindex="-1" class="menu dropdown-content z-[1] w-80 rounded-box bg-base-200 p-2 shadow">
-			<div class="p-2">
-				<h2 class="text-lg font-bold">Ask Gemini!</h2>
-			</div>
-			<ul>
-				{#each promptRecommendations as prompt}
-					<li class="py-2">
-						<button
-							onclick={async () => {
-								setPrompt(prompt);
-								await interactWithChatbot();
-							}}>{prompt}</button
-						>
-					</li>
-				{/each}
-			</ul>
+	<button use:popup={menuPopup} class=" variant-filled btn btn-icon btn-xl p-1">
+		<img src={geminiLogo} alt="Gemini Logo" />
+	</button>
 
-			<div class="p-2">
-				<form onsubmit={interactWithChatbot}>
-					<input
-						type="text"
-						name="prompt"
-						bind:this={promptInput}
-						required
-						placeholder="Ask me anything..."
-						class="input input-bordered w-full max-w-xs"
-					/>
-					<button class="btn btn-primary mt-4">
-						{#if isInteracting}
-							<span class="loading loading-spinner"></span>
-						{:else}
-							<span>Send</span>
-						{/if}
+	<div class="card w-96 p-4 shadow-xl" data-popup="chatbotMenu">
+		<div class="p-2">
+			<h2 class="h4 font-bold">Ask Gemini!</h2>
+		</div>
+		<ul class="list-nav">
+			{#each promptRecommendations as prompt}
+				<li>
+					<button
+						onclick={async () => {
+							setPrompt(prompt);
+							await interactWithChatbot();
+						}}
+						class="w-full text-left"
+					>
+						{prompt}
 					</button>
-				</form>
-			</div>
+				</li>
+			{/each}
+		</ul>
+
+		<div class="py-2">
+			<form onsubmit={interactWithChatbot}>
+				<input
+					type="text"
+					name="prompt"
+					bind:this={promptInput}
+					required
+					placeholder="Ask me anything..."
+					class="input"
+				/>
+				<button class="variant-filled-primary btn mt-4">
+					{#if isInteracting}
+						<span class="loading loading-spinner"></span>
+					{:else}
+						<span>Send</span>
+					{/if}
+				</button>
+			</form>
 		</div>
 	</div>
 </div>

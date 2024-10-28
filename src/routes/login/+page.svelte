@@ -18,39 +18,29 @@
 </script>
 
 <div class="flex h-full flex-col items-center justify-center gap-4">
-	<h1 class="text-2xl font-bold">Login/Register</h1>
+	<h1 class="h3 font-bold">Login/Register</h1>
 
-	<form method="post" action="?/login" use:enhance>
-		<label class="form-control w-full max-w-xs">
-			<div class="label">
-				<span class="label-text">Username</span>
-			</div>
-
-			<input type="text" name="username" required class="input input-bordered w-full max-w-xs" />
+	<form method="post" action="?/login" use:enhance class="flex flex-col gap-4">
+		<label class="label">
+			<span>Username</span>
+			<input type="text" name="username" required class="input" />
 		</label>
 
-		<label class="form-control w-full max-w-xs">
-			<div class="label">
-				<span class="label-text">Password</span>
-			</div>
+		<label class="label">
+			<span>Password</span>
 
-			<input
-				type="password"
-				name="password"
-				required
-				class="input input-bordered w-full max-w-xs"
-			/>
+			<input type="password" name="password" required class="input" />
 		</label>
 
-		<div class="mt-4">
-			<button class="btn btn-primary mr-1">Login</button>
-			<button formaction="?/register" class="btn btn-neutral">Register</button>
+		<div class="mt-2">
+			<button class="variant-filled-primary btn mr-1">Login</button>
+			<button formaction="?/register" class="variant-soft btn">Register</button>
 		</div>
 	</form>
 
 	{#if formErrorMessage}
 		<div class="toast">
-			<div class="alert alert-error">
+			<div class="alert-error alert">
 				<span>{formErrorMessage}</span>
 			</div>
 		</div>
