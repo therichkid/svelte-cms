@@ -12,7 +12,7 @@
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
 	let drawerButtonClicked = () => {
-		console.log('Drawer button clicked');
+		// TODO
 	};
 </script>
 

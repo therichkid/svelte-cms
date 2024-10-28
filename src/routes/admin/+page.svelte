@@ -10,10 +10,10 @@
 	<h1 class="h3 font-bold">Hi, {data.user.name}!</h1>
 	<form method="post" action="?/logout" use:enhance>
 		<button class="variant-soft btn">
-			<span>Sign out</span>
 			<span>
 				<i class="fa-solid fa-right-from-bracket"></i>
 			</span>
+			<span>Sign out</span>
 		</button>
 	</form>
 </div>

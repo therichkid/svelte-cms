@@ -54,6 +54,8 @@
 		}
 		value += decoder.decode();
 
+		console.log(value);
+
 		isInteracting = false;
 	};
 </script>

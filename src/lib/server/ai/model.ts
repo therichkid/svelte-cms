@@ -10,7 +10,7 @@ const modelId = 'gemini-1.5-flash';
 const model = genAI.getGenerativeModel({
 	model: modelId,
 	systemInstruction:
-		'You are a chatbot within a rich text editor. You can help users write text. You can also provide information and answer questions. Return your answers in HTML format.',
+		"Don't output markup, instead use HTML. Titles are <h1>, <h2>,... and paragraphs are <p>. Use <br> for line breaks.",
 });
 
 export const generateResponse = async (sessionId: string, prompt: string) => {
