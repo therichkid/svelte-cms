@@ -61,7 +61,7 @@
 </script>
 
 <div class="absolute bottom-3 right-3">
-	<button use:popup={menuPopup} class=" variant-filled btn btn-icon btn-xl p-1">
+	<button type="button" use:popup={menuPopup} class="variant-filled btn btn-icon btn-xl p-1">
 		<img src={geminiLogo} alt="Gemini Logo" />
 	</button>
 
@@ -95,7 +95,7 @@
 					placeholder="Ask me anything..."
 					class="input"
 				/>
-				<button class="variant-filled-primary btn mt-4">
+				<button type="button" class="variant-filled-primary btn mt-4">
 					{#if isInteracting}
 						<span class="loading loading-spinner"></span>
 					{:else}
