@@ -73,6 +73,7 @@
 			{#each promptRecommendations as prompt}
 				<li>
 					<button
+						type="button"
 						onclick={async () => {
 							setPrompt(prompt);
 							await interactWithChatbot();

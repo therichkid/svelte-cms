@@ -82,6 +82,7 @@
 
 	<div class="variant-soft btn-group">
 		<button
+			type="button"
 			onclick={() => editor.chain().focus().toggleBold().run()}
 			class:variant-filled-primary={activeNodes.has('bold')}
 			aria-label="Bold"
@@ -89,6 +90,7 @@
 			<i class="fa-solid fa-bold"></i>
 		</button>
 		<button
+			type="button"
 			onclick={() => editor.chain().focus().toggleItalic().run()}
 			class:variant-filled-primary={activeNodes.has('italic')}
 			aria-label="Italic"
@@ -96,6 +98,7 @@
 			<i class="fa-solid fa-italic"></i>
 		</button>
 		<button
+			type="button"
 			onclick={() => editor.chain().focus().toggleUnderline().run()}
 			class:variant-filled-primary={activeNodes.has('underline')}
 			aria-label="Underline"
@@ -103,6 +106,7 @@
 			<i class="fa-solid fa-underline"></i>
 		</button>
 		<button
+			type="button"
 			onclick={() => editor.chain().focus().toggleStrike().run()}
 			class:variant-filled-primary={activeNodes.has('strike')}
 			aria-label="Strike"
