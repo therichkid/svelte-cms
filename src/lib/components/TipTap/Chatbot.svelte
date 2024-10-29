@@ -11,9 +11,8 @@
 
 	let { value = $bindable() }: { value: string } = $props();
 
-	let promptInput: HTMLInputElement;
-
-	let isInteracting = $state(false);
+	let prompt = $state('');
+	let waitingForAnswer = $state(false);
 
 	const promptRecommendations = [
 		'TL;DR',
@@ -23,19 +22,14 @@
 		'Make it more concise',
 	];
 
-	const setPrompt = (prompt: string) => {
-		promptInput.value = prompt;
-	};
+	const askChatbot = async () => {
+		waitingForAnswer = true;
 
-	const interactWithChatbot = async () => {
-		isInteracting = true;
-
-		let prompt = promptInput.value;
-		prompt += `: ${value}`;
+		const promptWithValue = value?.trim().length ? `${prompt}: ${value}` : prompt;
 
 		const response = await fetch('/api/ai', {
 			method: 'POST',
-			body: JSON.stringify({ prompt }),
+			body: JSON.stringify({ prompt: promptWithValue }),
 		});
 
 		if (!response.ok) {
@@ -54,9 +48,7 @@
 		}
 		value += decoder.decode();
 
-		console.log(value);
-
-		isInteracting = false;
+		waitingForAnswer = false;
 	};
 </script>
 
@@ -70,40 +62,38 @@
 			<h2 class="h4 font-bold">Ask Gemini!</h2>
 		</div>
 		<ul class="list-nav">
-			{#each promptRecommendations as prompt}
+			{#each promptRecommendations as recommendation}
 				<li>
 					<button
 						type="button"
 						onclick={async () => {
-							setPrompt(prompt);
-							await interactWithChatbot();
+							prompt = recommendation;
+							await askChatbot();
 						}}
 						class="w-full text-left"
 					>
-						{prompt}
+						{recommendation}
 					</button>
 				</li>
 			{/each}
 		</ul>
 
 		<div class="py-2">
-			<form onsubmit={interactWithChatbot}>
-				<input
-					type="text"
-					name="prompt"
-					bind:this={promptInput}
-					required
-					placeholder="Ask me anything..."
-					class="input"
-				/>
-				<button type="button" class="variant-filled-primary btn mt-4">
-					{#if isInteracting}
-						<span class="loading loading-spinner"></span>
-					{:else}
-						<span>Send</span>
-					{/if}
-				</button>
-			</form>
+			<input
+				type="text"
+				name="prompt"
+				bind:value={prompt}
+				required
+				placeholder="Ask me anything..."
+				class="input"
+			/>
+			<button type="button" onclick={askChatbot} class="variant-filled-primary btn mt-4">
+				{#if waitingForAnswer}
+					<span class="loading loading-spinner"></span>
+				{:else}
+					<span>Send</span>
+				{/if}
+			</button>
 		</div>
 	</div>
 </div>

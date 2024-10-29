@@ -37,10 +37,7 @@
 		<input type="text" name="title" required bind:value={title} class="input" />
 	</label>
 
-	<label class="label">
-		<span>Content</span>
-		<Editor bind:value={content} />
-	</label>
+	<Editor bind:value={content} label="Content" />
 	<input type="hidden" name="content" bind:value={content} />
 
 	<div class="mt-2">

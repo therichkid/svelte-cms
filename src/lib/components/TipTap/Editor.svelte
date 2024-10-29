@@ -7,7 +7,7 @@
 	import CustomBubbleMenu from './BubbleMenu.svelte';
 	import Chatbot from './Chatbot.svelte';
 
-	let { value = $bindable() }: { value: string } = $props();
+	let { label = $bindable(), value = $bindable() }: { label?: string; value: string } = $props();
 
 	let editor = $state<Editor | null>(null);
 
@@ -49,13 +49,19 @@
 </script>
 
 <div class="relative">
+	{#if label}
+		<label for="tiptap-editor" class="label">
+			<span>{label}</span>
+		</label>
+	{/if}
+
+	<div bind:this={element} id="tiptap-editor"></div>
+
 	<div bind:this={bMenu}>
 		{#if editor}
 			<CustomBubbleMenu bind:editor />
 		{/if}
 	</div>
-
-	<div bind:this={element}></div>
 
 	{#if editor}
 		<Chatbot bind:value />
