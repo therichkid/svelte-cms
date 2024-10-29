@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { TextAnimator } from '$utils/TextAnimator.svelte';
 	import type { PopupSettings } from '@skeletonlabs/skeleton';
 	import { popup } from '@skeletonlabs/skeleton';
 	import geminiLogo from '../../assets/gemini-logo.svg';
@@ -13,6 +14,11 @@
 
 	let prompt = $state('');
 	let waitingForAnswer = $state(false);
+
+	const textAnimator = new TextAnimator();
+	$effect(() => {
+		value = textAnimator.animatedText;
+	});
 
 	const promptRecommendations = [
 		'TL;DR',
@@ -39,14 +45,16 @@
 		const reader = response.body!.getReader();
 		const decoder = new TextDecoder();
 
-		value = '';
+		textAnimator.reset();
 		while (true) {
 			const { done, value: chunk } = await reader.read();
 			if (done) break;
 
-			value += decoder.decode(chunk, { stream: true });
+			const decodedChunk = decoder.decode(chunk, { stream: true });
+			textAnimator.addText(decodedChunk);
 		}
-		value += decoder.decode();
+		const finalChunk = decoder.decode();
+		textAnimator.addText(finalChunk);
 
 		waitingForAnswer = false;
 	};
