@@ -24,13 +24,13 @@
 		<tbody>
 			{#each data.posts as post}
 				<tr>
-					<td class="table-cell-fit text-center">
+					<td class="table-cell-fit text-center !align-middle">
 						<input class="checkbox" type="checkbox" />
 					</td>
-					<td>{post.title}</td>
-					<td class="table-cell-fit whitespace-nowrap">{post.userName}</td>
-					<td class="table-cell-fit">{post.createdAt?.toLocaleString()}</td>
-					<td class="table-cell-fit whitespace-nowrap text-right">
+					<td class="!align-middle">{post.title}</td>
+					<td class="table-cell-fit whitespace-nowrap !align-middle">{post.userName}</td>
+					<td class="table-cell-fit !align-middle">{post.createdAt?.toLocaleString()}</td>
+					<td class="table-cell-fit whitespace-nowrap text-right !align-middle">
 						<button class="btn btn-icon" aria-label="Edit Post">
 							<i class="fa-solid fa-pencil"></i>
 						</button>

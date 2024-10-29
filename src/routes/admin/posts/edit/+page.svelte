@@ -44,7 +44,9 @@
 		<button class="variant-filled-primary btn mr-1">
 			{data.mode === 'CREATE' ? 'Create' : 'Update'}</button
 		>
-		<button formaction="?/cancel" class="variant-soft btn">Cancel</button>
+		<button type="button" onclick={() => window.history.back()} class="variant-soft btn">
+			Cancel
+		</button>
 	</div>
 
 	{#if formErrorMessage}
