@@ -91,11 +91,15 @@
 				type="text"
 				name="prompt"
 				bind:value={prompt}
-				required
 				placeholder="Ask me anything..."
 				class="input"
 			/>
-			<button type="button" onclick={askChatbot} class="variant-filled-primary btn mt-4">
+			<button
+				type="button"
+				onclick={askChatbot}
+				disabled={!prompt}
+				class="variant-filled-primary btn mt-4"
+			>
 				{#if waitingForAnswer}
 					<span class="loading loading-spinner"></span>
 				{:else}
