@@ -1,5 +1,40 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
+	import { getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
+	import type { SubmitFunction } from '@sveltejs/kit';
+
 	let { data } = $props();
+	let posts = $state(data.posts);
+
+	const modalStore = getModalStore();
+
+	const deletePost: SubmitFunction = async ({ formData, cancel }) => {
+		const id = formData.get('id');
+
+		if (!id || typeof id !== 'string') {
+			return cancel();
+		}
+
+		const post = posts.find((p) => p.id === parseInt(id));
+
+		const confirmed = await new Promise((resolve) => {
+			const confirmModal: ModalSettings = {
+				type: 'confirm',
+				title: 'Delete Post',
+				body: `Are you sure you want to delete "${post?.title}"?`,
+				response: resolve,
+			};
+			modalStore.trigger(confirmModal);
+		});
+
+		if (!confirmed) {
+			return cancel();
+		}
+
+		return () => {
+			posts = posts.filter((p) => p.id !== parseInt(id));
+		};
+	};
 </script>
 
 <div class="mb-3 flex w-full justify-between">
@@ -22,7 +57,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each data.posts as post}
+			{#each posts as post}
 				<tr>
 					<td class="table-cell-fit text-center !align-middle">
 						<input class="checkbox" type="checkbox" />
@@ -34,9 +69,12 @@
 						<a href={`posts/edit?id=${post.id}`} class="btn-icon" aria-label="Edit Post">
 							<i class="fa-solid fa-pencil"></i>
 						</a>
-						<button class="btn-icon" aria-label="Delete Post">
-							<i class="fa-solid fa-trash"></i>
-						</button>
+						<form action="?/delete" method="post" use:enhance={deletePost} class="inline">
+							<input type="hidden" name="id" value={post.id} />
+							<button class="btn-icon" aria-label="Delete Post">
+								<i class="fa-solid fa-trash"></i>
+							</button>
+						</form>
 					</td>
 				</tr>
 			{/each}

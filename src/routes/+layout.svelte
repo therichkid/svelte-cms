@@ -3,12 +3,13 @@
 	import TopBar from '$components/TopBar.svelte';
 	import '$utils/faLibrary';
 	import { arrow, autoUpdate, computePosition, flip, offset, shift } from '@floating-ui/dom';
-	import { autoModeWatcher, storePopup } from '@skeletonlabs/skeleton';
+	import { autoModeWatcher, initializeStores, Modal, storePopup } from '@skeletonlabs/skeleton';
 	import type { Snippet } from 'svelte';
 	import '../app.css';
 
 	let { children }: { children: Snippet } = $props();
 
+	initializeStores();
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
 	let drawerButtonClicked = () => {
@@ -17,6 +18,8 @@
 </script>
 
 <svelte:head>{@html '<script>(' + autoModeWatcher.toString() + ')();</script>'}</svelte:head>
+
+<Modal />
 
 <div class="grid h-screen grid-rows-[auto_1fr]">
 	<header class="bg-blue-500">
