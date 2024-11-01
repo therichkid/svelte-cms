@@ -1,25 +1,28 @@
 import type { Part } from '@google/generative-ai';
 
-type ChatHistory = Map<number, { role: 'user' | 'model'; parts: Part[] }[]>;
-
 const MAX_HISTORY_LENGTH = 10;
 
-const chatHistory: ChatHistory = new Map();
+type ChatHistory = { role: 'user' | 'model'; parts: Part[] }[];
 
-export const getChatHistory = (userId: number) => {
-	return chatHistory.get(userId) || [];
-};
+class ChatHistoryStore {
+	private userChatHistories: Map<number, ChatHistory> = new Map();
 
-export const addChatHistory = (userId: number, role: 'user' | 'model', parts: Part[]) => {
-	let history = chatHistory.get(userId);
-	if (!history) {
-		history = [];
-		chatHistory.set(userId, history);
+	getHistory(userId: number): ChatHistory | undefined {
+		return this.userChatHistories.get(userId);
 	}
 
-	history.push({ role, parts });
+	addToHistory(userId: number, role: 'user' | 'model', parts: Part[]) {
+		let history = this.userChatHistories.get(userId);
+		if (!history) history = [];
 
-	if (history.length > MAX_HISTORY_LENGTH) {
-		history.shift();
+		history.push({ role, parts });
+
+		if (history.length > MAX_HISTORY_LENGTH) history.shift();
+
+		this.userChatHistories.set(userId, history);
 	}
-};
+}
+
+const chatHistoryStore = new ChatHistoryStore();
+
+export { chatHistoryStore };

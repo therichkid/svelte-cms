@@ -1,4 +1,4 @@
-import { generateAIResponse } from '$lib/server/ai';
+import { generateResponse } from '$lib/server/ai';
 import { error } from '@sveltejs/kit';
 
 export const POST = async (event) => {
@@ -14,7 +14,7 @@ export const POST = async (event) => {
 		return error(400, { message: 'Invalid prompt' });
 	}
 
-	const response = await generateAIResponse(user.id, prompt);
+	const response = await generateResponse(user.id, prompt);
 	return new Response(response);
 };
 
