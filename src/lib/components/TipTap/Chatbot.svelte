@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { TextAnimator } from '$utils/TextAnimator.svelte';
+	import { TypeWriter } from '$utils/TypeWriter';
 	import type { PopupSettings } from '@skeletonlabs/skeleton';
 	import { popup, ProgressRadial } from '@skeletonlabs/skeleton';
 	import geminiLogo from '../../assets/gemini-logo.svg';
@@ -15,9 +15,8 @@
 	let prompt = $state('');
 	let waitingForAnswer = $state(false);
 
-	const textAnimator = new TextAnimator();
-	$effect(() => {
-		value = textAnimator.animatedText;
+	const typeWriter = new TypeWriter((typedText) => {
+		value = typedText;
 	});
 
 	const promptRecommendations = [
@@ -28,7 +27,7 @@
 		'Make it more concise',
 	];
 
-	const askChatbot = async () => {
+	const askGemini = async () => {
 		waitingForAnswer = true;
 
 		const promptWithValue = value?.trim().length ? `${prompt}: ${value}` : prompt;
@@ -44,24 +43,28 @@
 
 		const reader = response.body!.getReader();
 		const decoder = new TextDecoder();
+		typeWriter.clear();
 
-		textAnimator.reset();
 		while (true) {
 			const { done, value: chunk } = await reader.read();
 			if (done) break;
 
 			const decodedChunk = decoder.decode(chunk, { stream: true });
-			textAnimator.addText(decodedChunk);
+			typeWriter.add(decodedChunk);
 		}
 		const finalChunk = decoder.decode();
-		textAnimator.addText(finalChunk);
+		typeWriter.add(finalChunk);
 
 		waitingForAnswer = false;
 	};
 </script>
 
 <div class="absolute bottom-3 right-3">
-	<button type="button" use:popup={menuPopup} class="variant-filled btn-icon btn-xl p-1">
+	<button
+		type="button"
+		use:popup={menuPopup}
+		class="variant-filled btn-icon h-14 w-14 border-2 border-[#004a77] p-2 shadow-xl"
+	>
 		<img src={geminiLogo} alt="Gemini Logo" />
 	</button>
 
@@ -76,7 +79,7 @@
 						type="button"
 						onclick={async () => {
 							prompt = recommendation;
-							await askChatbot();
+							await askGemini();
 						}}
 						class="w-full text-left"
 					>
@@ -96,7 +99,7 @@
 			/>
 			<button
 				type="button"
-				onclick={askChatbot}
+				onclick={askGemini}
 				disabled={!prompt || waitingForAnswer}
 				class="variant-filled-primary btn mt-4"
 			>
