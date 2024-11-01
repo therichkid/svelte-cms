@@ -61,7 +61,7 @@
 </script>
 
 <div class="absolute bottom-3 right-3">
-	<button type="button" use:popup={menuPopup} class="variant-filled btn btn-icon btn-xl p-1">
+	<button type="button" use:popup={menuPopup} class="variant-filled btn-icon btn-xl p-1">
 		<img src={geminiLogo} alt="Gemini Logo" />
 	</button>
 
@@ -101,7 +101,9 @@
 				class="variant-filled-primary btn mt-4"
 			>
 				{#if waitingForAnswer}
+					<span>&nbsp;</span>
 					<ProgressRadial class="w-5" />
+					<span>&nbsp;</span>
 				{:else}
 					Send
 				{/if}

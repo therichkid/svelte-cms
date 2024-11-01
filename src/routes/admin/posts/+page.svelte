@@ -31,10 +31,10 @@
 					<td class="table-cell-fit whitespace-nowrap !align-middle">{post.userName}</td>
 					<td class="table-cell-fit !align-middle">{post.createdAt?.toLocaleString()}</td>
 					<td class="table-cell-fit whitespace-nowrap text-right !align-middle">
-						<a href={`posts/edit?id=${post.id}`} class="btn btn-icon" aria-label="Edit Post">
+						<a href={`posts/edit?id=${post.id}`} class="btn-icon" aria-label="Edit Post">
 							<i class="fa-solid fa-pencil"></i>
 						</a>
-						<button class="btn btn-icon" aria-label="Delete Post">
+						<button class="btn-icon" aria-label="Delete Post">
 							<i class="fa-solid fa-trash"></i>
 						</button>
 					</td>
@@ -47,11 +47,11 @@
 					<input class="checkbox" type="checkbox" />
 				</th>
 				<td class="table-cell-fit whitespace-nowrap text-right">
-					<button class="btn btn-icon" aria-label="Previous Posts">
+					<button class="btn-icon" aria-label="Previous Posts">
 						<i class="fa-solid fa-arrow-left"></i>
 					</button>
 					1/1
-					<button class="btn btn-icon" aria-label="Next Posts">
+					<button class="btn-icon" aria-label="Next Posts">
 						<i class="fa-solid fa-arrow-right"></i>
 					</button>
 				</td>

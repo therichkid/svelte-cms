@@ -8,7 +8,7 @@
 	<svelte:fragment slot="lead">
 		<button
 			onclick={drawerButtonClicked}
-			class="bg-initial btn btn-icon"
+			class="bg-initial btn-icon"
 			aria-label="Toggle navigation drawer"
 		>
 			<i class="fa-solid fa-bars"></i>
@@ -20,7 +20,7 @@
 	</svelte:fragment>
 
 	<svelte:fragment slot="trail">
-		<button class="bg-initial btn btn-icon" aria-label="Open settings">
+		<button class="bg-initial btn-icon" aria-label="Open settings">
 			<i class="fas fa-ellipsis-h"></i>
 		</button>
 	</svelte:fragment>

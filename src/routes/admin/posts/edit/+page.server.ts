@@ -27,7 +27,7 @@ export const load: PageServerLoad = async (event) => {
 
 export const actions: Actions = {
 	submit: async (event) => {
-		const id = event.url.searchParams.get('id');
+		const id = event.url.searchParams.get('id'); // TODO: id is not defined here
 
 		const formData = await event.request.formData();
 		const title = formData.get('title');
