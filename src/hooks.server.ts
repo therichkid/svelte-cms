@@ -1,5 +1,5 @@
 import { dev } from '$app/environment';
-import * as auth from '$lib/server/auth.js';
+import * as auth from '$lib/server/auth/session.js';
 import { redirect, type Handle, type RequestEvent } from '@sveltejs/kit';
 
 const handleAuth: Handle = async ({ event, resolve }) => {

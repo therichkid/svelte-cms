@@ -4,8 +4,10 @@ import { sha256 } from '@oslojs/crypto/sha2';
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from '@oslojs/encoding';
 import { eq } from 'drizzle-orm';
 
+export type SessionValidationResult = Awaited<ReturnType<typeof validateSession>>;
+
 const DAY_IN_MS = 1000 * 60 * 60 * 24;
-const EXPIRES_IN_DAYS = 30;
+const SESSION_EXPIRES_IN_DAYS = 30;
 
 export const SESSION_COOKIE_NAME = 'auth-session';
 
@@ -16,9 +18,9 @@ const generateSessionToken = (): string => {
 	return token;
 };
 
-function getExpiresAt() {
-	return new Date(Date.now() + DAY_IN_MS * EXPIRES_IN_DAYS);
-}
+const getExpiresAt = () => {
+	return new Date(Date.now() + DAY_IN_MS * SESSION_EXPIRES_IN_DAYS);
+};
 
 export const createSession = async (userId: number) => {
 	const token = generateSessionToken();
@@ -38,10 +40,6 @@ export const createSession = async (userId: number) => {
 		});
 
 	return session;
-};
-
-export const invalidateSession = async (sessionId: string): Promise<void> => {
-	await db.delete(sessionTable).where(eq(sessionTable.id, sessionId));
 };
 
 export const validateSession = async (sessionId: string) => {
@@ -77,4 +75,6 @@ export const validateSession = async (sessionId: string) => {
 	return { session, user };
 };
 
-export type SessionValidationResult = Awaited<ReturnType<typeof validateSession>>;
+export const invalidateSession = async (sessionId: string): Promise<void> => {
+	await db.delete(sessionTable).where(eq(sessionTable.id, sessionId));
+};

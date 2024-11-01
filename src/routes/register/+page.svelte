@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { type LoginSchemaKey } from './schema';
+	import { type RegisterSchemaKey } from './schema';
 
 	let { form } = $props();
 
-	const resetFieldError = (control: LoginSchemaKey) => {
+	const resetFieldError = (control: RegisterSchemaKey) => {
 		if (!form?.fieldErrors?.[control]) return;
 
 		form.fieldErrors[control] = undefined;
@@ -13,11 +13,11 @@
 </script>
 
 <div class="flex h-full flex-col items-center justify-center gap-4">
-	<h1 class="h3 font-bold">Login</h1>
+	<h1 class="h3 font-bold">Register</h1>
 
 	<form method="post" use:enhance class="flex flex-col gap-4">
 		<label class="label">
-			<span>Username or Email</span>
+			<span>Username</span>
 			<input
 				type="text"
 				name="username"
@@ -28,6 +28,21 @@
 			/>
 			{#if form?.fieldErrors?.username}
 				<p class="mt-2 text-error-500">{form.fieldErrors.username[0]}</p>
+			{/if}
+		</label>
+
+		<label class="label">
+			<span>Email</span>
+			<input
+				type="text"
+				name="email"
+				required
+				value={form?.data?.email || ''}
+				oninput={() => resetFieldError('email')}
+				class="input {form?.fieldErrors?.email && 'input-error'}"
+			/>
+			{#if form?.fieldErrors?.email}
+				<p class="mt-2 text-error-500">{form.fieldErrors.email[0]}</p>
 			{/if}
 		</label>
 
@@ -46,8 +61,23 @@
 			{/if}
 		</label>
 
+		<label class="label">
+			<span>Confirm Password</span>
+			<input
+				type="password"
+				name="password"
+				required
+				value={form?.data?.confirmPassword || ''}
+				oninput={() => resetFieldError('confirmPassword')}
+				class="input {form?.fieldErrors?.confirmPassword && 'input-error'}"
+			/>
+			{#if form?.fieldErrors?.confirmPassword}
+				<p class="mt-2 text-error-500">{form.fieldErrors.confirmPassword[0]}</p>
+			{/if}
+		</label>
+
 		<div class="mt-3 flex justify-center">
-			<button class="variant-filled-primary btn">Login</button>
+			<button class="variant-filled-primary btn">Register</button>
 		</div>
 	</form>
 
@@ -56,6 +86,6 @@
 	{/if}
 
 	<p class="mt-2">
-		<a href="/register" class="anchor">Don't have an account yet?</a>
+		<a href="/login" class="anchor">Already have an account?</a>
 	</p>
 </div>

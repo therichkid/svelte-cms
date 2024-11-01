@@ -1,4 +1,4 @@
-import type { SessionValidationResult } from '$lib/server/auth';
+import type { SessionValidationResult } from '$lib/server/auth/session';
 
 // See https://svelte.dev/docs/kit/types#app.d.ts
 // for information about these interfaces
