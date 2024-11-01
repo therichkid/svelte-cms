@@ -63,7 +63,7 @@
 	<button
 		type="button"
 		use:popup={menuPopup}
-		class="variant-filled btn-icon h-14 w-14 border-2 border-[#004a77] p-2 shadow-xl"
+		class="variant-filled btn-icon h-14 w-14 animate-pulse border-2 border-[#004a77] p-2 shadow-xl"
 	>
 		<img src={geminiLogo} alt="Gemini Logo" />
 	</button>
