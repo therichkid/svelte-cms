@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { TextAnimator } from '$utils/TextAnimator.svelte';
 	import type { PopupSettings } from '@skeletonlabs/skeleton';
-	import { popup } from '@skeletonlabs/skeleton';
+	import { popup, ProgressRadial } from '@skeletonlabs/skeleton';
 	import geminiLogo from '../../assets/gemini-logo.svg';
 
 	const menuPopup: PopupSettings = {
@@ -97,13 +97,13 @@
 			<button
 				type="button"
 				onclick={askChatbot}
-				disabled={!prompt}
+				disabled={!prompt || waitingForAnswer}
 				class="variant-filled-primary btn mt-4"
 			>
 				{#if waitingForAnswer}
-					<span class="loading loading-spinner"></span>
+					<ProgressRadial class="w-5" />
 				{:else}
-					<span>Send</span>
+					Send
 				{/if}
 			</button>
 		</div>
