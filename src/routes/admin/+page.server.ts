@@ -3,9 +3,6 @@ import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => {
-	if (!event.locals.user) {
-		return redirect(302, '/login');
-	}
 	return { user: event.locals.user };
 };
 
@@ -17,6 +14,6 @@ export const actions: Actions = {
 		await auth.invalidateSession(event.locals.session.id);
 		event.cookies.delete(auth.SESSION_COOKIE_NAME, { path: '/' });
 
-		return redirect(302, '/login');
+		return redirect(302, '/');
 	},
 };

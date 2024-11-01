@@ -13,9 +13,9 @@ const model = genAI.getGenerativeModel({
 		"Don't output markup, instead use HTML. Titles are <h1>, <h2>,... and paragraphs are <p>. Use <br> for line breaks.",
 });
 
-export const generateResponse = async (sessionId: string, prompt: string) => {
-	if (!sessionId) {
-		throw new Error('No valid session ID provided');
+export const generateResponse = async (userId: number, prompt: string) => {
+	if (!userId) {
+		throw new Error('No valid user provided');
 	}
 	if (!prompt) {
 		throw new Error('No prompt provided');
@@ -23,7 +23,7 @@ export const generateResponse = async (sessionId: string, prompt: string) => {
 
 	try {
 		const chat = model.startChat({
-			history: getChatHistory(sessionId),
+			history: getChatHistory(userId),
 			generationConfig: {
 				maxOutputTokens: 256,
 				temperature: 0.7,
@@ -51,8 +51,8 @@ export const generateResponse = async (sessionId: string, prompt: string) => {
 
 				controller.close();
 
-				addChatHistory(sessionId, 'user', [{ text: prompt }]);
-				addChatHistory(sessionId, 'model', [{ text: responseText }]);
+				addChatHistory(userId, 'user', [{ text: prompt }]);
+				addChatHistory(userId, 'model', [{ text: responseText }]);
 			},
 		});
 

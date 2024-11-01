@@ -5,10 +5,6 @@ import { eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => {
-	if (!event.locals.user) {
-		return redirect(302, '/login');
-	}
-
 	const id = event.url.searchParams.get('id');
 
 	if (id) {

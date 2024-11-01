@@ -1,31 +1,23 @@
 import { generateAIResponse } from '$lib/server/ai';
-import { validateSession } from '$lib/server/auth.js';
 import { error } from '@sveltejs/kit';
 
 export const POST = async (event) => {
 	const data = await event.request.json();
+
+	const { user } = event.locals;
+	if (!user) {
+		return error(401, { message: 'Unauthorized' });
+	}
 
 	const { prompt } = data;
 	if (!validatePrompt(prompt)) {
 		return error(400, { message: 'Invalid prompt' });
 	}
 
-	const sessionId = event.locals.session?.id;
-	if (!(await validateSessionId(sessionId))) {
-		return error(401, { message: 'Unauthorized' });
-	}
-
-	const response = await generateAIResponse(sessionId as string, prompt);
+	const response = await generateAIResponse(user.id, prompt);
 	return new Response(response);
 };
 
 const validatePrompt = (prompt: unknown): prompt is string => {
 	return typeof prompt === 'string' && prompt.length > 0;
-};
-
-const validateSessionId = async (sessionId: unknown): Promise<boolean> => {
-	if (typeof sessionId !== 'string') return false;
-
-	const { session } = await validateSession(sessionId);
-	return session !== null;
 };
