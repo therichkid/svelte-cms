@@ -1,5 +1,5 @@
-import { dev } from '$app/environment';
-import * as auth from '$lib/server/auth/session.js';
+import { clearAuthCookie, SESSION_COOKIE_NAME, setAuthCookie } from '$lib/server/auth/cookie';
+import { validateSession } from '$lib/server/auth/session';
 import { redirect, type Handle, type RequestEvent } from '@sveltejs/kit';
 
 const handleAuth: Handle = async ({ event, resolve }) => {
@@ -9,15 +9,9 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 	event.locals.session = session;
 
 	if (session) {
-		event.cookies.set(auth.SESSION_COOKIE_NAME, session.id.toString(), {
-			path: '/',
-			sameSite: 'lax',
-			httpOnly: true,
-			expires: session.expiresAt,
-			secure: !dev,
-		});
+		setAuthCookie(event, session);
 	} else {
-		event.cookies.delete(auth.SESSION_COOKIE_NAME, { path: '/' });
+		clearAuthCookie(event);
 	}
 
 	if (event.url.pathname.startsWith('/admin') && !user) {
@@ -28,13 +22,13 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 };
 
 const getUserAndSession = async (event: RequestEvent) => {
-	const sessionId = event.cookies.get(auth.SESSION_COOKIE_NAME);
+	const sessionId = event.cookies.get(SESSION_COOKIE_NAME);
 
 	if (!sessionId) {
 		return { user: null, session: null };
 	}
 
-	return await auth.validateSession(sessionId);
+	return await validateSession(sessionId);
 };
 
 export const handle: Handle = handleAuth;

@@ -1,21 +1,37 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { type LoginSchemaKey } from './schema';
+	import type { ActionData } from './$types.js';
+	import type { LoginSchemaKey } from './schema';
 
 	let { form } = $props();
 
-	const resetFieldError = (control: LoginSchemaKey) => {
-		if (!form?.fieldErrors?.[control]) return;
+	let fieldErrors = $state(form?.fieldErrors);
+	let formErrors = $state(form?.formErrors);
 
-		form.fieldErrors[control] = undefined;
-		form.formErrors = undefined;
+	const resetFieldError = (control: LoginSchemaKey) => {
+		fieldErrors?.[control] && (fieldErrors[control] = undefined);
+		formErrors = undefined;
 	};
 </script>
 
 <div class="flex h-full flex-col items-center justify-center gap-4">
 	<h1 class="h3 font-bold">Login</h1>
 
-	<form method="post" use:enhance class="flex flex-col gap-4">
+	<form
+		method="post"
+		use:enhance={() => {
+			return async ({ update, result }) => {
+				await update();
+
+				if ('data' in result) {
+					const data = result.data as ActionData;
+					formErrors = data?.formErrors;
+					fieldErrors = data?.fieldErrors;
+				}
+			};
+		}}
+		class="flex flex-col gap-4"
+	>
 		<label class="label">
 			<span>Username or Email</span>
 			<input
@@ -24,10 +40,10 @@
 				required
 				value={form?.data?.username || ''}
 				oninput={() => resetFieldError('username')}
-				class="input {form?.fieldErrors?.username && 'input-error'}"
+				class="input {fieldErrors?.username && 'input-error'}"
 			/>
-			{#if form?.fieldErrors?.username}
-				<p class="mt-2 text-error-500">{form.fieldErrors.username[0]}</p>
+			{#if fieldErrors?.username}
+				<p class="mt-2 text-error-500">{fieldErrors.username[0]}</p>
 			{/if}
 		</label>
 
@@ -39,10 +55,10 @@
 				required
 				value={form?.data?.password || ''}
 				oninput={() => resetFieldError('password')}
-				class="input {form?.fieldErrors?.password && 'input-error'}"
+				class="input {fieldErrors?.password && 'input-error'}"
 			/>
-			{#if form?.fieldErrors?.password}
-				<p class="mt-2 text-error-500">{form.fieldErrors.password[0]}</p>
+			{#if fieldErrors?.password}
+				<p class="mt-2 text-error-500">{fieldErrors.password[0]}</p>
 			{/if}
 		</label>
 
@@ -51,8 +67,8 @@
 		</div>
 	</form>
 
-	{#if form?.formErrors}
-		<p class="mt-2 text-error-500">{form.formErrors[0]}</p>
+	{#if formErrors}
+		<p class="mt-2 text-error-500">{formErrors[0]}</p>
 	{/if}
 
 	<p class="mt-2">

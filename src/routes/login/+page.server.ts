@@ -1,6 +1,6 @@
 import { setAuthCookie } from '$lib/server/auth/cookie';
 import { verifyPassword } from '$lib/server/auth/password';
-import * as auth from '$lib/server/auth/session';
+import { createSession } from '$lib/server/auth/session';
 import { db } from '$lib/server/db';
 import { user as userTable } from '$lib/server/db/schema';
 import { fail, redirect } from '@sveltejs/kit';
@@ -52,7 +52,7 @@ export const actions: Actions = {
 			});
 		}
 
-		const session = await auth.createSession(userId);
+		const session = await createSession(userId);
 		setAuthCookie(event, session);
 
 		return redirect(302, '/admin');

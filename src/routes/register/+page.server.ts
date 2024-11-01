@@ -1,6 +1,6 @@
 import { setAuthCookie } from '$lib/server/auth/cookie';
 import { hashPassword } from '$lib/server/auth/password';
-import * as auth from '$lib/server/auth/session';
+import { createSession } from '$lib/server/auth/session';
 import { db } from '$lib/server/db';
 import { user as userTable } from '$lib/server/db/schema';
 import { fail, redirect } from '@sveltejs/kit';
@@ -53,7 +53,7 @@ export const actions: Actions = {
 				.values({ name: username, email, passwordHash })
 				.returning({ id: userTable.id });
 
-			const session = await auth.createSession(userId);
+			const session = await createSession(userId);
 			setAuthCookie(event, session);
 		} catch {
 			return fail(500, {

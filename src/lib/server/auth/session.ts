@@ -9,8 +9,6 @@ export type SessionValidationResult = Awaited<ReturnType<typeof validateSession>
 const DAY_IN_MS = 1000 * 60 * 60 * 24;
 const SESSION_EXPIRES_IN_DAYS = 30;
 
-export const SESSION_COOKIE_NAME = 'auth-session';
-
 const generateSessionToken = (): string => {
 	const bytes = crypto.getRandomValues(new Uint8Array(20));
 	const token = encodeBase32LowerCaseNoPadding(bytes);
