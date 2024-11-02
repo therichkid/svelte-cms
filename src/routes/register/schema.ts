@@ -21,11 +21,13 @@ export const registerSchema = z
 		firstName: z
 			.string()
 			.max(100, { message: 'First name must be less than than 64 characters long' })
-			.optional(),
+			.optional()
+			.transform((v) => v || null),
 		lastName: z
 			.string()
 			.max(100, { message: 'Last name must be less than than 64 characters long' })
-			.optional(),
+			.optional()
+			.transform((v) => v || null),
 	})
 	.superRefine(({ password, confirmPassword }, ctx) => {
 		if (password !== confirmPassword) {

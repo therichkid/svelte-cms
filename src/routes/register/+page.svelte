@@ -1,12 +1,34 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { ActionData } from './$types.js';
+	import type { ActionData, SubmitFunction } from './$types.js';
 	import type { RegisterSchemaKey } from './schema';
 
 	let { form } = $props();
 
+	let username = $state(form?.data.username);
+	let email = $state(form?.data.email);
+	let password = $state(form?.data.password);
+	let confirmPassword = $state(form?.data.confirmPassword);
 	let fieldErrors = $state(form?.fieldErrors);
 	let formErrors = $state(form?.formErrors);
+
+	const registerUser: SubmitFunction = () => {
+		return async ({ formElement, update, result }) => {
+			await update();
+			formElement.reset();
+
+			if ('data' in result) {
+				const data = result.data as ActionData;
+
+				username = data?.data?.username || '';
+				email = data?.data?.email || '';
+				password = data?.data?.password || '';
+				confirmPassword = data?.data?.confirmPassword || '';
+				formErrors = data?.formErrors;
+				fieldErrors = data?.fieldErrors;
+			}
+		};
+	};
 
 	const resetFieldError = (control: RegisterSchemaKey) => {
 		fieldErrors?.[control] && (fieldErrors[control] = undefined);
@@ -17,34 +39,19 @@
 <div class="flex h-full flex-col items-center justify-center gap-4">
 	<h1 class="h3 font-bold">Register</h1>
 
-	<form
-		method="post"
-		use:enhance={() => {
-			return async ({ formElement, update, result }) => {
-				formElement.reset();
-				await update();
-
-				if ('data' in result) {
-					const data = result.data as ActionData;
-					formErrors = data?.formErrors;
-					fieldErrors = data?.fieldErrors;
-				}
-			};
-		}}
-		class="flex flex-col gap-4"
-	>
+	<form method="post" use:enhance={registerUser} class="flex flex-col gap-4">
 		<label class="label">
 			<span>Username</span>
 			<input
 				type="text"
 				name="username"
 				required
-				value={form?.data?.username || ''}
+				bind:value={username}
 				oninput={() => resetFieldError('username')}
 				class="input {fieldErrors?.username && 'input-error'}"
 			/>
 			{#if fieldErrors?.username}
-				<p class="mt-2 text-error-500">{fieldErrors.username[0]}</p>
+				<p class="mt-2 text-sm text-error-500">{fieldErrors.username[0]}</p>
 			{/if}
 		</label>
 
@@ -54,12 +61,12 @@
 				type="text"
 				name="email"
 				required
-				value={form?.data?.email || ''}
+				bind:value={email}
 				oninput={() => resetFieldError('email')}
 				class="input {fieldErrors?.email && 'input-error'}"
 			/>
 			{#if fieldErrors?.email}
-				<p class="mt-2 text-error-500">{fieldErrors.email[0]}</p>
+				<p class="mt-2 text-sm text-error-500">{fieldErrors.email[0]}</p>
 			{/if}
 		</label>
 
@@ -69,12 +76,12 @@
 				type="password"
 				name="password"
 				required
-				value={form?.data?.password || ''}
+				bind:value={password}
 				oninput={() => resetFieldError('password')}
 				class="input {fieldErrors?.password && 'input-error'}"
 			/>
 			{#if fieldErrors?.password}
-				<p class="mt-2 text-error-500">{fieldErrors.password[0]}</p>
+				<p class="mt-2 text-sm text-error-500">{fieldErrors.password[0]}</p>
 			{/if}
 		</label>
 
@@ -84,12 +91,12 @@
 				type="password"
 				name="confirmPassword"
 				required
-				value={form?.data?.confirmPassword || ''}
+				bind:value={confirmPassword}
 				oninput={() => resetFieldError('confirmPassword')}
 				class="input {fieldErrors?.confirmPassword && 'input-error'}"
 			/>
 			{#if fieldErrors?.confirmPassword}
-				<p class="mt-2 text-error-500">{fieldErrors.confirmPassword[0]}</p>
+				<p class="mt-2 text-sm text-error-500">{fieldErrors.confirmPassword[0]}</p>
 			{/if}
 		</label>
 
@@ -99,7 +106,7 @@
 	</form>
 
 	{#if formErrors}
-		<p class="mt-2 text-error-500">{formErrors[0]}</p>
+		<p class="mt-2 text-sm text-error-500">{formErrors[0]}</p>
 	{/if}
 
 	<p class="mt-2">

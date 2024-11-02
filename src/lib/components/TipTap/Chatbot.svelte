@@ -10,7 +10,7 @@
 		placement: 'top-end',
 	};
 
-	let { value = $bindable() }: { value: string } = $props();
+	let { value = $bindable() }: { value: string | FormDataEntryValue | undefined } = $props();
 
 	let prompt = $state('');
 	let waitingForAnswer = $state(false);
@@ -30,7 +30,8 @@
 	const askGemini = async () => {
 		waitingForAnswer = true;
 
-		const promptWithValue = value?.trim().length ? `${prompt}: ${value}` : prompt;
+		const promptWithValue =
+			typeof value === 'string' && value.trim().length ? `${prompt}: ${value}` : prompt;
 
 		const response = await fetch('/api/ai', {
 			method: 'POST',
@@ -59,13 +60,15 @@
 	};
 </script>
 
-<button
-	type="button"
-	use:popup={chatbotMenuPopup}
-	class="variant-filled btn-icon h-14 w-14 animate-pulse border-2 border-[#004a77] p-2 shadow-xl"
->
-	<img src={geminiLogo} alt="Gemini Logo" />
-</button>
+<div class="absolute bottom-3 right-3">
+	<button
+		type="button"
+		use:popup={chatbotMenuPopup}
+		class="variant-filled btn-icon h-14 w-14 animate-pulse border-2 border-[#004a77] p-2 shadow-xl"
+	>
+		<img src={geminiLogo} alt="Gemini Logo" />
+	</button>
+</div>
 
 <div class="card w-96 p-4 shadow-xl" data-popup="chatbotMenu">
 	<div class="p-2">
