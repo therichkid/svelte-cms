@@ -38,7 +38,7 @@
 		});
 
 		if (!response.ok) {
-			throw new Error('Failed to send request');
+			console.error(await response.json());
 		}
 
 		const reader = response.body!.getReader();
