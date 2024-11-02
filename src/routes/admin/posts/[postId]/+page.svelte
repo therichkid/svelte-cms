@@ -15,10 +15,13 @@
 	let fieldErrors = $state(form?.fieldErrors);
 	let formErrors = $state(form?.formErrors);
 
+	$effect(() => {
+		content && resetFieldError('content');
+	});
+
 	const createOrUpdatePost: SubmitFunction = () => {
-		return async ({ formElement, update, result }) => {
+		return async ({ update, result }) => {
 			await update();
-			formElement.reset();
 
 			if ('data' in result) {
 				const data = result.data as ActionData;

@@ -11,9 +11,8 @@
 	let formErrors = $state(form?.formErrors);
 
 	const loginUser: SubmitFunction = () => {
-		return async ({ formElement, update, result }) => {
+		return async ({ update, result }) => {
 			await update();
-			formElement.reset();
 
 			if ('data' in result) {
 				const data = result.data as ActionData;
