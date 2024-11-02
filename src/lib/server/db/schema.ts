@@ -40,7 +40,7 @@ export const post = pgTable('posts', {
 	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
 	updatedAt: timestamp('updated_at', { withTimezone: true })
 		.defaultNow()
-		.$onUpdate(() => sql`current_timestamp`),
+		.$onUpdate(() => new Date()),
 	userId: integer('user_id')
 		.notNull()
 		.references(() => user.id, { onDelete: 'cascade' }),
@@ -56,7 +56,7 @@ export const page = pgTable('pages', {
 	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
 	updatedAt: timestamp('updated_at', { withTimezone: true })
 		.defaultNow()
-		.$onUpdate(() => sql`current_timestamp`),
+		.$onUpdate(() => new Date()),
 	userId: integer('user_id')
 		.notNull()
 		.references(() => user.id, { onDelete: 'cascade' }),

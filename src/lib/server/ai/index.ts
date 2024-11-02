@@ -25,7 +25,7 @@ export const generateResponse = async (userId: number, prompt: string) => {
 		const chat = model.startChat({
 			history: chatHistoryStore.getHistory(userId),
 			generationConfig: {
-				maxOutputTokens: 256,
+				// maxOutputTokens: 256,
 				temperature: 0.7,
 			},
 		});

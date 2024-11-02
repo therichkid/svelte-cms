@@ -62,11 +62,13 @@
 					<td class="table-cell-fit text-center !align-middle">
 						<input class="checkbox" type="checkbox" />
 					</td>
-					<td class="!align-middle">{post.title}</td>
+					<td class="!align-middle">
+						<a href={`posts/${post.id}`} class="anchor">{post.title}</a>
+					</td>
 					<td class="table-cell-fit whitespace-nowrap !align-middle">{post.userName}</td>
-					<td class="table-cell-fit !align-middle">{post.createdAt?.toLocaleString()}</td>
+					<td class="table-cell-fit !align-middle">{post.updatedAt?.toLocaleString()}</td>
 					<td class="table-cell-fit whitespace-nowrap text-right !align-middle">
-						<a href={`posts/edit?id=${post.id}`} class="btn-icon" aria-label="Edit Post">
+						<a href={`posts/${post.id}`} class="btn-icon" aria-label="Edit Post">
 							<span><i class="fa-solid fa-pencil"></i></span>
 						</a>
 						<form action="?/delete" method="post" use:enhance={deletePost} class="inline">

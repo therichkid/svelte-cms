@@ -18,6 +18,7 @@ export const load: PageServerLoad = async () => {
 		.from(postTable)
 		.leftJoin(userTable, eq(postTable.userId, userTable.id))
 		.limit(10)
+		.offset(0)
 		.orderBy(asc(postTable.createdAt));
 
 	return { posts };

@@ -4,10 +4,10 @@ import { fail, redirect } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async (event) => {
-	const id = event.url.searchParams.get('id');
+export const load: PageServerLoad = async ({ params }) => {
+	const { postId } = params;
 
-	if (id) {
+	if (postId) {
 		const [post] = await db
 			.select({
 				createdAt: postTable.createdAt,
@@ -17,7 +17,7 @@ export const load: PageServerLoad = async (event) => {
 				status: postTable.status,
 			})
 			.from(postTable)
-			.where(eq(postTable.id, parseInt(id)));
+			.where(eq(postTable.id, parseInt(postId)));
 
 		return { mode: 'UPDATE', post };
 	}
@@ -27,7 +27,7 @@ export const load: PageServerLoad = async (event) => {
 
 export const actions: Actions = {
 	submit: async (event) => {
-		const id = event.url.searchParams.get('id'); // TODO: id is not defined here
+		const { postId } = event.params;
 
 		const formData = await event.request.formData();
 		const title = formData.get('title');
@@ -44,11 +44,11 @@ export const actions: Actions = {
 			return fail(400, { message: 'Invalid status' });
 		}
 
-		if (id) {
+		if (postId) {
 			await db
 				.update(postTable)
 				.set({ title, content, status })
-				.where(eq(postTable.id, parseInt(id)));
+				.where(eq(postTable.id, parseInt(postId)));
 		} else {
 			await db.insert(postTable).values({ title, content, status, userId: event.locals.user!.id });
 		}
