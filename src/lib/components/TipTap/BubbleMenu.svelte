@@ -87,7 +87,7 @@
 			class:variant-filled-primary={activeNodes.has('bold')}
 			aria-label="Bold"
 		>
-			<i class="fa-solid fa-bold"></i>
+			<span><i class="fa-solid fa-bold"></i></span>
 		</button>
 		<button
 			type="button"
@@ -95,7 +95,7 @@
 			class:variant-filled-primary={activeNodes.has('italic')}
 			aria-label="Italic"
 		>
-			<i class="fa-solid fa-italic"></i>
+			<span><i class="fa-solid fa-italic"></i></span>
 		</button>
 		<button
 			type="button"
@@ -103,7 +103,7 @@
 			class:variant-filled-primary={activeNodes.has('underline')}
 			aria-label="Underline"
 		>
-			<i class="fa-solid fa-underline"></i>
+			<span><i class="fa-solid fa-underline"></i></span>
 		</button>
 		<button
 			type="button"
@@ -111,7 +111,7 @@
 			class:variant-filled-primary={activeNodes.has('strike')}
 			aria-label="Strike"
 		>
-			<i class="fa-solid fa-strikethrough"></i>
+			<span><i class="fa-solid fa-strikethrough"></i></span>
 		</button>
 	</div>
 </div>

@@ -14,6 +14,6 @@ export const setAuthCookie = (event: RequestEvent, session: Pick<Session, 'id' |
 	});
 };
 
-export const clearAuthCookie = (event: RequestEvent) => {
+export const deleteAuthCookie = (event: RequestEvent) => {
 	event.cookies.delete(SESSION_COOKIE_NAME, { path: '/' });
 };

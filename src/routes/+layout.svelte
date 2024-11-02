@@ -6,14 +6,15 @@
 	import { autoModeWatcher, initializeStores, Modal, storePopup } from '@skeletonlabs/skeleton';
 	import type { Snippet } from 'svelte';
 	import '../app.css';
+	import type { LayoutServerData } from './$types';
 
-	let { children }: { children: Snippet } = $props();
+	let { children, data }: { children: Snippet; data: LayoutServerData } = $props();
 
 	initializeStores();
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
 	let drawerButtonClicked = () => {
-		// TODO
+		console.log('Drawer button clicked');
 	};
 </script>
 
@@ -23,7 +24,7 @@
 
 <div class="grid h-screen grid-rows-[auto_1fr]">
 	<header class="bg-blue-500">
-		<TopBar {drawerButtonClicked} />
+		<TopBar {drawerButtonClicked} user={data.user} />
 	</header>
 
 	<div class="grid grid-cols-[auto_1fr] overflow-hidden">

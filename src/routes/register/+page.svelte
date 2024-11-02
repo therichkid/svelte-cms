@@ -20,7 +20,8 @@
 	<form
 		method="post"
 		use:enhance={() => {
-			return async ({ update, result }) => {
+			return async ({ formElement, update, result }) => {
+				formElement.reset();
 				await update();
 
 				if ('data' in result) {

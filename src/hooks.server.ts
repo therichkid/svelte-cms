@@ -1,4 +1,4 @@
-import { clearAuthCookie, SESSION_COOKIE_NAME, setAuthCookie } from '$lib/server/auth/cookie';
+import { deleteAuthCookie, SESSION_COOKIE_NAME, setAuthCookie } from '$lib/server/auth/cookie';
 import { validateSession } from '$lib/server/auth/session';
 import { redirect, type Handle, type RequestEvent } from '@sveltejs/kit';
 
@@ -11,7 +11,7 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 	if (session) {
 		setAuthCookie(event, session);
 	} else {
-		clearAuthCookie(event);
+		deleteAuthCookie(event);
 	}
 
 	if (event.url.pathname.startsWith('/admin') && !user) {

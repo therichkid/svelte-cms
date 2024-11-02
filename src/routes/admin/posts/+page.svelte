@@ -67,13 +67,13 @@
 					<td class="table-cell-fit !align-middle">{post.createdAt?.toLocaleString()}</td>
 					<td class="table-cell-fit whitespace-nowrap text-right !align-middle">
 						<a href={`posts/edit?id=${post.id}`} class="btn-icon" aria-label="Edit Post">
-							<i class="fa-solid fa-pencil"></i>
+							<span><i class="fa-solid fa-pencil"></i></span>
 						</a>
 						<form action="?/delete" method="post" use:enhance={deletePost} class="inline">
 							<input type="hidden" name="id" value={post.id} />
 							<button class="btn-icon" aria-label="Delete Post">
-								<i class="fa-solid fa-trash"></i>
-							</button>
+								<span><i class="fa-solid fa-trash"></i> </span></button
+							>
 						</form>
 					</td>
 				</tr>
@@ -86,11 +86,11 @@
 				</th>
 				<td class="table-cell-fit whitespace-nowrap text-right">
 					<button class="btn-icon" aria-label="Previous Posts">
-						<i class="fa-solid fa-arrow-left"></i>
+						<span><i class="fa-solid fa-arrow-left"></i></span>
 					</button>
 					1/1
 					<button class="btn-icon" aria-label="Next Posts">
-						<i class="fa-solid fa-arrow-right"></i>
+						<span><i class="fa-solid fa-arrow-right"></i></span>
 					</button>
 				</td>
 			</tr>

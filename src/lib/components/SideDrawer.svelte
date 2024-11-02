@@ -8,7 +8,7 @@
 	<svelte:fragment slot="lead">
 		<AppRailAnchor href="/" title="Home" selected={$page.url.pathname === '/'}>
 			<svelte:fragment slot="lead">
-				<i class="fa-solid fa-home"></i>
+				<span><i class="fa-solid fa-home"></i></span>
 			</svelte:fragment>
 			<span>Home</span>
 		</AppRailAnchor>
@@ -18,7 +18,7 @@
 			selected={$page.url.pathname.includes('/admin')}
 		>
 			<svelte:fragment slot="lead">
-				<i class="fa-solid fa-hammer"></i>
+				<span><i class="fa-solid fa-hammer"></i></span>
 			</svelte:fragment>
 			<span>Admin</span>
 		</AppRailAnchor>
@@ -32,7 +32,7 @@
 			selected={$page.url.pathname.includes('/settings')}
 		>
 			<svelte:fragment slot="lead">
-				<i class="fa-solid fa-gear"></i>
+				<span><i class="fa-solid fa-gear"></i></span>
 			</svelte:fragment>
 			<span>Settings</span>
 		</AppRailAnchor>

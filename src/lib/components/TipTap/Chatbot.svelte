@@ -4,7 +4,7 @@
 	import { popup, ProgressRadial } from '@skeletonlabs/skeleton';
 	import geminiLogo from '../../assets/gemini-logo.svg';
 
-	const menuPopup: PopupSettings = {
+	const chatbotMenuPopup: PopupSettings = {
 		event: 'click',
 		target: 'chatbotMenu',
 		placement: 'top-end',
@@ -62,7 +62,7 @@
 <div class="absolute bottom-3 right-3">
 	<button
 		type="button"
-		use:popup={menuPopup}
+		use:popup={chatbotMenuPopup}
 		class="variant-filled btn-icon h-14 w-14 animate-pulse border-2 border-[#004a77] p-2 shadow-xl"
 	>
 		<img src={geminiLogo} alt="Gemini Logo" />
@@ -70,8 +70,9 @@
 
 	<div class="card w-96 p-4 shadow-xl" data-popup="chatbotMenu">
 		<div class="p-2">
-			<h2 class="h4 font-bold">Ask Gemini!</h2>
+			<h3 class="h4 font-bold">Ask Gemini!</h3>
 		</div>
+		<hr class="my-2" />
 		<ul class="list-nav">
 			{#each promptRecommendations as recommendation}
 				<li>
