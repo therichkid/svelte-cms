@@ -1,10 +1,16 @@
 import { db } from '$lib/server/db';
 import { post as postTable, user as userTable } from '$lib/server/db/schema';
 import { fail } from '@sveltejs/kit';
-import { asc, eq } from 'drizzle-orm';
+import { asc, count, eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ url }) => {
+	const page = parseInt(url.searchParams.get('page') ?? '1');
+	const limit = parseInt(url.searchParams.get('limit') ?? '10');
+	const offset = (page - 1) * limit;
+
+	const [{ count: postsCount }] = await db.select({ count: count() }).from(postTable);
+
 	const posts = await db
 		.select({
 			id: postTable.id,
@@ -17,11 +23,11 @@ export const load: PageServerLoad = async () => {
 		})
 		.from(postTable)
 		.leftJoin(userTable, eq(postTable.userId, userTable.id))
-		.limit(10)
-		.offset(0)
+		.limit(limit)
+		.offset(offset)
 		.orderBy(asc(postTable.createdAt));
 
-	return { posts };
+	return { posts, postsCount, page, limit };
 };
 
 export const actions: Actions = {

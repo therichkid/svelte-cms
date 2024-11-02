@@ -45,7 +45,9 @@ export const post = pgTable('posts', {
 		.notNull()
 		.references(() => user.id, { onDelete: 'cascade' }),
 	title: varchar('title', { length: 255 }).notNull(),
+	slug: varchar('slug', { length: 255 }).notNull().unique(),
 	content: text('content').notNull(),
+	excerpt: varchar('excerpt', { length: 1000 }),
 	status: postStatus('status').notNull().default('draft'),
 });
 

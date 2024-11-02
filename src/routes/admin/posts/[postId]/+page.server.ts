@@ -1,28 +1,33 @@
 import { db } from '$lib/server/db';
-import { post as postTable, type Post } from '$lib/server/db/schema';
+import { post as postTable, user as userTable, type Post } from '$lib/server/db/schema';
+import { slugify } from '$utils/slug';
 import { fail, redirect } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 import type { Actions, PageServerLoad } from './$types';
+import { isUpdatePost, PostMode } from './mode';
 
 export const load: PageServerLoad = async ({ params }) => {
 	const { postId } = params;
 
-	if (postId) {
+	const users = await db.select({ id: userTable.id, name: userTable.name }).from(userTable);
+
+	if (isUpdatePost(postId)) {
 		const [post] = await db
 			.select({
 				createdAt: postTable.createdAt,
 				updatedAt: postTable.updatedAt,
 				title: postTable.title,
 				content: postTable.content,
+				// excerpt: postTable.excerpt,
 				status: postTable.status,
 			})
 			.from(postTable)
 			.where(eq(postTable.id, parseInt(postId)));
 
-		return { mode: 'UPDATE', post };
+		return { mode: PostMode.CREATE, post, users };
 	}
 
-	return { mode: 'CREATE' };
+	return { mode: PostMode.UPDATE, users };
 };
 
 export const actions: Actions = {
@@ -44,13 +49,15 @@ export const actions: Actions = {
 			return fail(400, { message: 'Invalid status' });
 		}
 
-		if (postId) {
+		if (isUpdatePost(postId)) {
 			await db
 				.update(postTable)
 				.set({ title, content, status })
 				.where(eq(postTable.id, parseInt(postId)));
 		} else {
-			await db.insert(postTable).values({ title, content, status, userId: event.locals.user!.id });
+			await db
+				.insert(postTable)
+				.values({ title, slug: slugify(title), content, status, userId: event.locals.user!.id });
 		}
 
 		return redirect(302, '/admin/posts');

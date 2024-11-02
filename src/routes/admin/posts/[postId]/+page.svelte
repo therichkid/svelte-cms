@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import Editor from '$components/TipTap/Editor.svelte';
 	import { onMount } from 'svelte';
+	import { PostMode } from './mode.js';
 
 	let { data, form } = $props();
 
@@ -28,7 +29,7 @@
 </script>
 
 <div class="mb-3 flex w-full justify-between">
-	<h1 class="h3 font-bold">{data.mode === 'CREATE' ? 'Add New' : 'Edit'} Post</h1>
+	<h1 class="h3 font-bold">{data.mode === PostMode.CREATE ? 'Add New' : 'Edit'} Post</h1>
 </div>
 
 <form method="post" action="?/submit" use:enhance class="flex flex-col gap-4">
@@ -42,7 +43,7 @@
 
 	<div class="mt-2">
 		<button class="variant-filled-primary btn mr-1">
-			{data.mode === 'CREATE' ? 'Create' : 'Update'}</button
+			{data.mode === PostMode.CREATE ? 'Create' : 'Update'}</button
 		>
 		<button type="button" onclick={() => window.history.back()} class="variant-soft btn">
 			Cancel

@@ -31,7 +31,7 @@
 			editorProps: {
 				attributes: {
 					class:
-						'textarea prose prose-lg min-h-[400px] max-w-none p-3 dark:prose-invert focus:outline-none',
+						'textarea prose prose-md min-h-[400px] max-w-none p-3 dark:prose-invert focus:outline-none',
 				},
 			},
 			content: value,
