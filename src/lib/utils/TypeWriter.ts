@@ -6,7 +6,7 @@ export class TypeWriter {
 
 	constructor(
 		private onLetterTyped: (typedText: string) => void,
-		private typingSpeed = 5,
+		private typingSpeed = 3,
 	) {}
 
 	add(text: string) {

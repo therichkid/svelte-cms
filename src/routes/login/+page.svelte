@@ -14,7 +14,7 @@
 		return async ({ update, result }) => {
 			await update();
 
-			if ('data' in result) {
+			if (result.type === 'failure') {
 				const data = result.data as ActionData;
 
 				username = data?.data?.username || '';

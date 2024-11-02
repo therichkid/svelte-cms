@@ -23,7 +23,7 @@
 		return async ({ update, result }) => {
 			await update();
 
-			if ('data' in result) {
+			if (result.type === 'failure') {
 				const data = result.data as ActionData;
 
 				title = data?.data?.title || '';
