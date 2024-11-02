@@ -59,59 +59,57 @@
 	};
 </script>
 
-<div class="absolute bottom-3 right-3">
-	<button
-		type="button"
-		use:popup={chatbotMenuPopup}
-		class="variant-filled btn-icon h-14 w-14 animate-pulse border-2 border-[#004a77] p-2 shadow-xl"
-	>
-		<img src={geminiLogo} alt="Gemini Logo" />
-	</button>
+<button
+	type="button"
+	use:popup={chatbotMenuPopup}
+	class="variant-filled btn-icon h-14 w-14 animate-pulse border-2 border-[#004a77] p-2 shadow-xl"
+>
+	<img src={geminiLogo} alt="Gemini Logo" />
+</button>
 
-	<div class="card w-96 p-4 shadow-xl" data-popup="chatbotMenu">
-		<div class="p-2">
-			<h3 class="h4 font-bold">Ask Gemini!</h3>
-		</div>
-		<hr class="my-2" />
-		<ul class="list-nav">
-			{#each promptRecommendations as recommendation}
-				<li>
-					<button
-						type="button"
-						onclick={async () => {
-							prompt = recommendation;
-							await askGemini();
-						}}
-						class="w-full text-left"
-					>
-						{recommendation}
-					</button>
-				</li>
-			{/each}
-		</ul>
+<div class="card w-96 p-4 shadow-xl" data-popup="chatbotMenu">
+	<div class="p-2">
+		<h3 class="h4 font-bold">Ask Gemini!</h3>
+	</div>
+	<hr class="my-2" />
+	<ul class="list-nav">
+		{#each promptRecommendations as recommendation}
+			<li>
+				<button
+					type="button"
+					onclick={async () => {
+						prompt = recommendation;
+						await askGemini();
+					}}
+					class="w-full text-left"
+				>
+					{recommendation}
+				</button>
+			</li>
+		{/each}
+	</ul>
 
-		<div class="py-2">
-			<input
-				type="text"
-				name="prompt"
-				bind:value={prompt}
-				placeholder="Ask me anything..."
-				class="input"
-			/>
-			<button
-				type="button"
-				onclick={askGemini}
-				disabled={!prompt || waitingForAnswer}
-				class="variant-filled-primary btn mt-4"
-			>
-				{#if waitingForAnswer}
-					<span>&nbsp;</span>
-					<ProgressRadial class="w-5" />
-					<span>&nbsp;</span>
-				{:else}
-					Send
-				{/if}
-			</button>
-		</div>
+	<div class="py-2">
+		<input
+			type="text"
+			name="prompt"
+			bind:value={prompt}
+			placeholder="Ask me anything..."
+			class="input"
+		/>
+		<button
+			type="button"
+			onclick={askGemini}
+			disabled={!prompt || waitingForAnswer}
+			class="variant-filled-primary btn mt-4"
+		>
+			{#if waitingForAnswer}
+				<span>&nbsp;</span>
+				<ProgressRadial class="w-5" />
+				<span>&nbsp;</span>
+			{:else}
+				Send
+			{/if}
+		</button>
 	</div>
 </div>
