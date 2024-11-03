@@ -1,52 +1,76 @@
 <script lang="ts">
+	import ElementPicker from '$components/FormBuilder/ElementPicker.svelte';
+	import { FORM_ELEMENTS, FormElementRef } from '$lib/models/form-builder/elements';
+	import type { FormTree } from '$lib/models/form-builder/form';
+	import type { FormNode } from '$lib/models/form-builder/nodes';
+	import { createNodeFromElement } from '$utils/formBuilder';
 	import Sortable from 'sortablejs';
 	import { onMount } from 'svelte';
 
-	interface CreatedForm {
-		id: number;
-		name: string;
-		elements: FormElement[];
-	}
-
-	interface FormElement {
-		slug: string;
-		label: string;
-		fullWidth?: boolean;
-	}
-
-	const formElements: FormElement[] = [
-		{ slug: 'text-input', label: 'Text Input' },
-		{ slug: 'textarea', label: 'Textarea' },
-		{ slug: 'number-input', label: 'Number Input' },
-		{ slug: 'date-input', label: 'Date Input' },
-		{ slug: 'checkbox', label: 'Checkbox' },
-		{ slug: 'radio', label: 'Radio' },
-	];
-
-	const createdForm: CreatedForm = {
-		id: 1,
+	let formTree: FormTree = $state<FormTree>({
+		id: '1',
 		name: 'Form 1',
-		elements: [
-			{ slug: 'text-input', label: 'Text Input' },
-			{ slug: 'text-input', label: 'Text Input' },
-		],
-	};
-
-	let formElementsRef: HTMLElement;
-	let createdFormRef: HTMLElement;
-
-	onMount(async function () {
-		Sortable.create(formElementsRef, {
-			group: {
-				name: 'form-elements',
-				pull: 'clone',
-				put: false,
+		nodes: [
+			{
+				id: '1',
+				ref: FormElementRef.Heading,
+				text: 'Participant Information',
+				cssClasses: 'h3',
+				containerCssClasses: 'col-span-2',
 			},
-			animation: 150,
-			sort: false,
-		});
+			{
+				id: '2',
+				ref: FormElementRef.Paragraph,
+				text: 'Please fill out the form below to register for the event.',
+				containerCssClasses: 'col-span-2',
+			},
+			{
+				id: '3',
+				ref: FormElementRef.Input,
+				name: 'first_name',
+				label: 'First Name',
+				type: 'text',
+			},
+			{
+				id: '4',
+				ref: FormElementRef.Input,
+				name: 'last_name',
+				label: 'Last Name',
+				type: 'text',
+			},
+			{
+				id: '5',
+				ref: FormElementRef.Input,
+				name: 'email',
+				label: 'Email',
+				type: 'email',
+			},
+			{
+				id: '6',
+				ref: FormElementRef.Date,
+				name: 'dob',
+				label: 'Date of Birth',
+				includeTime: false,
+			},
+			{
+				id: '7',
+				ref: FormElementRef.Button,
+				name: 'submit',
+				label: 'Submit',
+				action: 'submit',
+				cssClasses: 'variant-filled-primary',
+			},
+		],
+	});
 
-		Sortable.create(createdFormRef, {
+	let isEditingFormName = $state(false);
+
+	let selectedNode = $state<FormNode | null>(null);
+
+	let formTreeRef: HTMLElement;
+
+	onMount(() => {
+		Sortable.create(formTreeRef, {
 			group: 'form-elements',
 			animation: 150,
 
@@ -58,58 +82,165 @@
 				item.parentNode?.removeChild(event.item);
 
 				// Add the form element manually
-				const addedFormElement = formElements[oldIndex];
-				createdForm.elements = [
-					...createdForm.elements.slice(0, newIndex),
-					addedFormElement,
-					...createdForm.elements.slice(newIndex),
+				const formElement = FORM_ELEMENTS[oldIndex];
+				const formNode = createNodeFromElement(formElement);
+				formTree.nodes = [
+					...formTree.nodes.slice(0, newIndex),
+					formNode,
+					...formTree.nodes.slice(newIndex),
 				];
 			},
 		});
 	});
 </script>
 
-<div class="grid h-full grid-cols-[auto_1fr] gap-4">
-	<div>
-		<div class="card flex w-[240px] flex-col">
-			<header class="card-header">
-				<h3 class="h4">Elements</h3>
-			</header>
-			<section bind:this={formElementsRef} class="flex flex-col gap-4 p-4">
-				{#each formElements as element}
-					<div class="w-full cursor-move rounded-md bg-surface-700 p-4 hover:bg-surface-600">
-						{element.label}
-					</div>
-				{/each}
-			</section>
-		</div>
-	</div>
+<div class="grid-row grid h-full grid-cols-[240px_1fr_auto] gap-4">
+	<ElementPicker></ElementPicker>
 
-	<div class="card flex h-full flex-col items-center">
-		<header class="card-header">
-			<h3 class="h4">{createdForm.name}</h3>
+	<div class="flex flex-col items-center">
+		<header class="my-4 flex items-center">
+			{#if isEditingFormName}
+				<input
+					type="text"
+					bind:value={formTree.name}
+					autofocus
+					onblur={() => (isEditingFormName = false)}
+					class="input"
+				/>
+			{:else}
+				<h1 class="h3">{formTree.name}</h1>
+				<button
+					onclick={() => (isEditingFormName = true)}
+					class="btn-icon ml-1"
+					aria-label="Edit form name"
+				>
+					<span class="text-gray-500"><i class="fa fa-pencil"></i></span>
+				</button>
+			{/if}
 		</header>
+
 		<section
-			bind:this={createdFormRef}
+			bind:this={formTreeRef}
 			class="grid h-full w-full max-w-screen-lg auto-rows-max grid-cols-1 gap-4 p-4 md:grid-cols-2"
 		>
-			{#each createdForm.elements as element}
+			{#each formTree.nodes as node}
 				<div
-					class="flex w-full cursor-move items-center justify-between rounded-md bg-surface-700 p-4 hover:bg-surface-600"
-					class:col-span-2={element.fullWidth}
+					class="flex w-full cursor-pointer items-center gap-4 rounded-md bg-surface-900 p-4 hover:bg-surface-800 {node.containerCssClasses}"
 				>
-					<div>
-						<label class="label">
-							<span>{element.label}</span>
-							<input class="input" type="text" />
-						</label>
+					<span class="cursor-move pr-3 text-gray-500"
+						><i class="fa-solid fa-grip-vertical"></i></span
+					>
+					<div class="w-full">
+						<!-- Heading -->
+						{#if node.ref === FormElementRef.Heading}
+							<h2 class="text-center {node.cssClasses}">{node.text}</h2>
+
+							<!-- Paragraph -->
+						{:else if node.ref === FormElementRef.Paragraph}
+							<p>{node.text}</p>
+
+							<!-- Input -->
+						{:else if node.ref === FormElementRef.Input}
+							<label class="label">
+								{#if node.label}
+									<span>{node.label}</span>
+								{/if}
+								<input type={node.type} name={node.name} class="input {node.cssClasses}" />
+							</label>
+
+							<!-- Date -->
+						{:else if node.ref === FormElementRef.Date}
+							<label class="label">
+								{#if node.label}
+									<span>{node.label}</span>
+								{/if}
+								<input
+									name={node.name}
+									type={node.includeTime ? 'datetime-local' : 'date'}
+									class="input {node.cssClasses}"
+								/>
+							</label>
+
+							<!-- Textarea -->
+						{:else if node.ref === FormElementRef.Textarea}
+							<label class="label">
+								{#if node.label}
+									<span>{node.label}</span>
+								{/if}
+								<textarea name={node.name} rows={node.rows ?? 4} class="textarea {node.cssClasses}"
+								></textarea>
+							</label>
+
+							<!-- Select -->
+						{:else if node.ref === FormElementRef.Select}
+							<label class="label">
+								{#if node.label}
+									<span>{node.label}</span>
+								{/if}
+								<select name={node.name} multiple={node.multiple} class="select {node.cssClasses}">
+									{#each node.options as option}
+										<option value={option}>{option}</option>
+									{/each}
+								</select>
+							</label>
+
+							<!-- Checkbox -->
+						{:else if node.ref === FormElementRef.Checkbox}
+							<label class="label">
+								{#if node.label}
+									<span>{node.label}</span>
+								{/if}
+								<div class="space-y-2">
+									{#each node.options as option}
+										<label class="flex items-center space-x-2">
+											<input type="checkbox" name={option} class="checkbox" />
+											<span>{option}</span>
+										</label>
+									{/each}
+								</div>
+							</label>
+
+							<!-- Radio -->
+						{:else if node.ref === FormElementRef.Radio}
+							<label class="label">
+								{#if node.label}
+									<span>{node.label}</span>
+								{/if}
+								<div class="space-y-2">
+									{#each node.options as option}
+										<label class="flex items-center space-x-2">
+											<input type="radio" name={node.name} value={option} class="radio" />
+											<span>{option}</span>
+										</label>
+									{/each}
+								</div>
+							</label>
+
+							<!-- Button -->
+						{:else if node.ref === FormElementRef.Button}
+							<button type={node.action} class="btn {node.cssClasses}">{node.label}</button>
+						{/if}
 					</div>
-					<label class="flex items-center space-x-2">
-						<input class="checkbox" type="checkbox" bind:checked={element.fullWidth} />
-						<span>Full Width</span>
-					</label>
+					<button class="btn-icon" aria-label="Delete form field">
+						<span class="text-gray-500 hover:text-error-500"><i class="fa-solid fa-trash"></i></span
+						>
+					</button>
 				</div>
 			{/each}
 		</section>
 	</div>
+
+	{#if selectedNode}
+		<div class="card w-[320px]">
+			<header class="card-header mb-2 flex items-center justify-between">
+				<h3 class="h4">Settings</h3>
+				<button class="btn-icon" aria-label="Close settings">
+					<span><i class="fa fa-xmark"></i> </span>
+				</button>
+			</header>
+			<section class="flex flex-col gap-4 p-4">
+				<!-- TODO -->
+			</section>
+		</div>
+	{/if}
 </div>

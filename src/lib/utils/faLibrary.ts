@@ -6,6 +6,7 @@ import {
 	faBold,
 	faEllipsisH,
 	faGear,
+	faGripVertical,
 	faHammer,
 	faHouse,
 	faItalic,
@@ -15,6 +16,7 @@ import {
 	faStrikethrough,
 	faTrash,
 	faUnderline,
+	faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -24,6 +26,7 @@ library.add(
 	faBold,
 	faEllipsisH,
 	faGear,
+	faGripVertical,
 	faHammer,
 	faHouse,
 	faItalic,
@@ -33,5 +36,6 @@ library.add(
 	faStrikethrough,
 	faTrash,
 	faUnderline,
+	faXmark,
 );
 dom.watch();
