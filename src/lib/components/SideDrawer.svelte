@@ -14,13 +14,23 @@
 		</AppRailAnchor>
 		<AppRailAnchor
 			href="/admin/posts"
-			title="Admin"
-			selected={$page.url.pathname.includes('/admin')}
+			title="Posts"
+			selected={$page.url.pathname.startsWith('/admin/posts')}
+		>
+			<svelte:fragment slot="lead">
+				<span><i class="fa-solid fa-newspaper"></i></span>
+			</svelte:fragment>
+			<span>Posts</span>
+		</AppRailAnchor>
+		<AppRailAnchor
+			href="/admin/form-builder"
+			title="Form-Builder"
+			selected={$page.url.pathname.startsWith('/admin/form-builder')}
 		>
 			<svelte:fragment slot="lead">
 				<span><i class="fa-solid fa-hammer"></i></span>
 			</svelte:fragment>
-			<span>Admin</span>
+			<span>Form-Builder</span>
 		</AppRailAnchor>
 	</svelte:fragment>
 

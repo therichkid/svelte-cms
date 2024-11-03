@@ -18,7 +18,7 @@
 	});
 </script>
 
-<div class="card">
+<div class="card overflow-auto">
 	<header class="card-header my-2">
 		<h3 class="h4">Elements</h3>
 	</header>

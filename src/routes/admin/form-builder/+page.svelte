@@ -116,10 +116,10 @@
 	};
 </script>
 
-<div class="grid-row grid h-full grid-cols-[240px_1fr_auto] gap-4">
+<div class="grid-row grid h-full grid-cols-[240px_1fr_auto] gap-4 overflow-hidden">
 	<ElementPicker></ElementPicker>
 
-	<div class="flex flex-col items-center">
+	<div class="flex flex-col items-center overflow-auto">
 		<header class="my-4 flex items-center">
 			{#if isEditingFormTreeName}
 				<!-- svelte-ignore a11y_autofocus -->
@@ -279,7 +279,7 @@
 	{#if selectedNode}
 		<div
 			onclick={(event) => event.stopPropagation()}
-			class="card w-[320px]"
+			class="card w-[320px] overflow-auto"
 			in:fly={{ x: 100 }}
 			out:fly={{ x: 100 }}
 			aria-hidden="true"
