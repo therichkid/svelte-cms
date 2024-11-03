@@ -4,6 +4,7 @@
 	import type { FormTree } from '$lib/models/form-builder/form';
 	import type { FormNode } from '$lib/models/form-builder/nodes';
 	import { createNodeFromElement } from '$utils/formBuilder';
+	import { capitalize } from '$utils/string';
 	import Sortable from 'sortablejs';
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
@@ -64,12 +65,12 @@
 		],
 	});
 
-	let isEditingFormName = $state(false);
+	let isEditingFormTreeName = $state(false);
+
+	let formTreeRef: HTMLElement;
 
 	let selectedNode = $state<FormNode | null>(null);
 	let highlightedNodeId = $state<string | null>(null);
-
-	let formTreeRef: HTMLElement;
 
 	onMount(() => {
 		Sortable.create(formTreeRef, {
@@ -94,6 +95,19 @@
 			},
 		});
 	});
+
+	const openSettings = (event: MouseEvent, node: FormNode) => {
+		selectedNode = node;
+
+		event.stopPropagation();
+		document.body.addEventListener('click', closeSettings);
+	};
+
+	const closeSettings = () => {
+		selectedNode = null;
+
+		document.body.removeEventListener('click', closeSettings);
+	};
 </script>
 
 <div class="grid-row grid h-full grid-cols-[240px_1fr_auto] gap-4">
@@ -101,18 +115,18 @@
 
 	<div class="flex flex-col items-center">
 		<header class="my-4 flex items-center">
-			{#if isEditingFormName}
+			{#if isEditingFormTreeName}
 				<input
 					type="text"
 					bind:value={formTree.name}
 					autofocus
-					onblur={() => (isEditingFormName = false)}
+					onblur={() => (isEditingFormTreeName = false)}
 					class="input"
 				/>
 			{:else}
 				<h1 class="h3">{formTree.name}</h1>
 				<button
-					onclick={() => (isEditingFormName = true)}
+					onclick={() => (isEditingFormTreeName = true)}
 					class="btn-icon ml-1"
 					aria-label="Edit form name"
 				>
@@ -129,7 +143,7 @@
 			{#each formTree.nodes as node}
 				<!-- TODO: Remove aria-hidden -->
 				<div
-					onclick={() => (selectedNode = node)}
+					onclick={(event) => openSettings(event, node)}
 					onmouseenter={() => (highlightedNodeId = node.id)}
 					onmouseleave={() => (highlightedNodeId = null)}
 					class="flex w-full cursor-pointer items-center gap-4 rounded-md bg-surface-900 p-4 hover:bg-surface-800 {node.containerCssClasses}"
@@ -252,10 +266,16 @@
 	</div>
 
 	{#if selectedNode}
-		<div class="card w-[320px]" in:fly={{ x: 100 }} out:fly={{ x: 100 }}>
+		<div
+			onclick={(event) => event.stopPropagation()}
+			class="card w-[320px]"
+			in:fly={{ x: 100 }}
+			out:fly={{ x: 100 }}
+			aria-hidden="true"
+		>
 			<header class="card-header mb-2 flex items-center justify-between">
-				<h3 class="h4">Settings</h3>
-				<button onclick={() => (selectedNode = null)} class="btn-icon" aria-label="Close settings">
+				<h3 class="h4">{capitalize(selectedNode.ref)} Settings</h3>
+				<button onclick={() => closeSettings()} class="btn-icon" aria-label="Close settings">
 					<span><i class="fa fa-xmark"></i> </span>
 				</button>
 			</header>
