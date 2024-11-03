@@ -96,17 +96,23 @@
 		});
 	});
 
-	const openSettings = (event: MouseEvent, node: FormNode) => {
-		selectedNode = node;
-
+	const deleteNode = (event: MouseEvent | KeyboardEvent, id: string) => {
 		event.stopPropagation();
-		document.body.addEventListener('click', closeSettings);
+
+		formTree.nodes = formTree.nodes.filter((node) => node.id !== id);
 	};
 
-	const closeSettings = () => {
+	const openNodeSettings = (event: MouseEvent | KeyboardEvent, node: FormNode) => {
+		event.stopPropagation();
+		document.body.addEventListener('click', closeNodeSettings);
+
+		selectedNode = node;
+	};
+
+	const closeNodeSettings = () => {
 		selectedNode = null;
 
-		document.body.removeEventListener('click', closeSettings);
+		document.body.removeEventListener('click', closeNodeSettings);
 	};
 </script>
 
@@ -116,6 +122,7 @@
 	<div class="flex flex-col items-center">
 		<header class="my-4 flex items-center">
 			{#if isEditingFormTreeName}
+				<!-- svelte-ignore a11y_autofocus -->
 				<input
 					type="text"
 					bind:value={formTree.name}
@@ -141,14 +148,17 @@
 			role="list"
 		>
 			{#each formTree.nodes as node}
-				<!-- TODO: Remove aria-hidden -->
 				<div
-					onclick={(event) => openSettings(event, node)}
-					onmouseenter={() => (highlightedNodeId = node.id)}
+					onclick={(event) => openNodeSettings(event, node)}
+					onkeydown={(event) => {
+						if (event.key === 'Enter') openNodeSettings(event, node);
+					}}
+					onfocus={() => (highlightedNodeId = node.id)}
+					onmouseover={() => (highlightedNodeId = node.id)}
 					onmouseleave={() => (highlightedNodeId = null)}
 					class="flex w-full cursor-pointer items-center gap-4 rounded-md bg-surface-900 p-4 hover:bg-surface-800 {node.containerCssClasses}"
-					role="listitem"
-					aria-hidden="true"
+					role="button"
+					tabindex="0"
 				>
 					<span
 						class="cursor-move pr-3 text-gray-500 transition-opacity duration-300 ease-in-out"
@@ -251,6 +261,7 @@
 					</div>
 
 					<button
+						onclick={(event) => deleteNode(event, node.id)}
 						class="btn-icon transition-opacity duration-300 ease-in-out"
 						class:opacity-0={highlightedNodeId !== node.id}
 						class:opacity-100={highlightedNodeId === node.id}
@@ -275,7 +286,7 @@
 		>
 			<header class="card-header mb-2 flex items-center justify-between">
 				<h3 class="h4">{capitalize(selectedNode.ref)} Settings</h3>
-				<button onclick={() => closeSettings()} class="btn-icon" aria-label="Close settings">
+				<button onclick={() => closeNodeSettings()} class="btn-icon" aria-label="Close settings">
 					<span><i class="fa fa-xmark"></i> </span>
 				</button>
 			</header>
