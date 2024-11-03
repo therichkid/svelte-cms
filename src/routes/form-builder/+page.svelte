@@ -6,6 +6,7 @@
 	import { createNodeFromElement } from '$utils/formBuilder';
 	import Sortable from 'sortablejs';
 	import { onMount } from 'svelte';
+	import { fly } from 'svelte/transition';
 
 	let formTree: FormTree = $state<FormTree>({
 		id: '1',
@@ -66,6 +67,7 @@
 	let isEditingFormName = $state(false);
 
 	let selectedNode = $state<FormNode | null>(null);
+	let highlightedNodeId = $state<string | null>(null);
 
 	let formTreeRef: HTMLElement;
 
@@ -122,14 +124,26 @@
 		<section
 			bind:this={formTreeRef}
 			class="grid h-full w-full max-w-screen-lg auto-rows-max grid-cols-1 gap-4 p-4 md:grid-cols-2"
+			role="list"
 		>
 			{#each formTree.nodes as node}
+				<!-- TODO: Remove aria-hidden -->
 				<div
+					onclick={() => (selectedNode = node)}
+					onmouseenter={() => (highlightedNodeId = node.id)}
+					onmouseleave={() => (highlightedNodeId = null)}
 					class="flex w-full cursor-pointer items-center gap-4 rounded-md bg-surface-900 p-4 hover:bg-surface-800 {node.containerCssClasses}"
+					role="listitem"
+					aria-hidden="true"
 				>
-					<span class="cursor-move pr-3 text-gray-500"
-						><i class="fa-solid fa-grip-vertical"></i></span
+					<span
+						class="cursor-move pr-3 text-gray-500 transition-opacity duration-300 ease-in-out"
+						class:opacity-0={highlightedNodeId !== node.id}
+						class:opacity-100={highlightedNodeId === node.id}
 					>
+						<i class="fa-solid fa-grip-vertical"></i>
+					</span>
+
 					<div class="w-full">
 						<!-- Heading -->
 						{#if node.ref === FormElementRef.Heading}
@@ -221,9 +235,16 @@
 							<button type={node.action} class="btn {node.cssClasses}">{node.label}</button>
 						{/if}
 					</div>
-					<button class="btn-icon" aria-label="Delete form field">
-						<span class="text-gray-500 hover:text-error-500"><i class="fa-solid fa-trash"></i></span
-						>
+
+					<button
+						class="btn-icon transition-opacity duration-300 ease-in-out"
+						class:opacity-0={highlightedNodeId !== node.id}
+						class:opacity-100={highlightedNodeId === node.id}
+						aria-label="Delete form field"
+					>
+						<span class="text-gray-500 hover:text-error-500"
+							><i class="fa-solid fa-trash"></i>
+						</span>
 					</button>
 				</div>
 			{/each}
@@ -231,10 +252,10 @@
 	</div>
 
 	{#if selectedNode}
-		<div class="card w-[320px]">
+		<div class="card w-[320px]" in:fly={{ x: 100 }} out:fly={{ x: 100 }}>
 			<header class="card-header mb-2 flex items-center justify-between">
 				<h3 class="h4">Settings</h3>
-				<button class="btn-icon" aria-label="Close settings">
+				<button onclick={() => (selectedNode = null)} class="btn-icon" aria-label="Close settings">
 					<span><i class="fa fa-xmark"></i> </span>
 				</button>
 			</header>
