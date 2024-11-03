@@ -8,6 +8,24 @@ importers:
 
   .:
     dependencies:
+      '@event-calendar/core':
+        specifier: ^3.6.2
+        version: 3.6.2
+      '@event-calendar/day-grid':
+        specifier: ^3.6.2
+        version: 3.6.2
+      '@event-calendar/interaction':
+        specifier: ^3.6.2
+        version: 3.6.2
+      '@event-calendar/list':
+        specifier: ^3.6.2
+        version: 3.6.2
+      '@event-calendar/resource-timeline':
+        specifier: ^3.6.2
+        version: 3.6.2
+      '@event-calendar/time-grid':
+        specifier: ^3.6.2
+        version: 3.6.2
       '@floating-ui/dom':
         specifier: ^1.6.12
         version: 1.6.12
@@ -87,6 +105,24 @@ importers:
       '@types/eslint':
         specifier: ^9.6.1
         version: 9.6.1
+      '@types/event-calendar__core':
+        specifier: ^3.6.1
+        version: 3.6.1
+      '@types/event-calendar__day-grid':
+        specifier: ^3.4.1
+        version: 3.4.1
+      '@types/event-calendar__interaction':
+        specifier: ^3.4.1
+        version: 3.4.1
+      '@types/event-calendar__list':
+        specifier: ^3.4.1
+        version: 3.4.1
+      '@types/event-calendar__resource-timeline':
+        specifier: ^3.4.1
+        version: 3.4.1
+      '@types/event-calendar__time-grid':
+        specifier: ^3.4.1
+        version: 3.4.1
       '@types/node':
         specifier: ^22.8.6
         version: 22.8.6
@@ -611,6 +647,24 @@ packages:
     resolution: {integrity: sha512-CXtq5nR4Su+2I47WPOlWud98Y5Lv8Kyxp2ukhgFx/eW6Blm18VXJO5WuQylPugRo8nbluoi6GvvxBLqHcvqUUw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
+  '@event-calendar/core@3.6.2':
+    resolution: {integrity: sha512-DUSKtuhc49Uhjadk3sBQnB0ZaR8JeZnxcmA5xAN2Gv7HLNinXcUOPOwuraBeL25nASxGgAQ7kQxDSgv4EOxcmQ==}
+
+  '@event-calendar/day-grid@3.6.2':
+    resolution: {integrity: sha512-nDMipE8NhscXUgkE9u5+4cd0VEoJZ3oQOYhEFwp79UyWbqG20JMSWPSfss1Vju3y3lc80PgLTAedM3QbwgWOrg==}
+
+  '@event-calendar/interaction@3.6.2':
+    resolution: {integrity: sha512-exxzgkAWLnusLfUwOpiqe9LFMIl7scOobEtgVq5fiDI7/NzLnLbGTU6H0eyipcEc2HG6nlAz2j3u0x4VO+wc+g==}
+
+  '@event-calendar/list@3.6.2':
+    resolution: {integrity: sha512-AUGqHsU+pVND5yZPjZbAkJ7oxjOhScQwUEs2A0B8TgjCd1622bWNvdM1YKjzqi16bi+bYaeE1CDtdjRcz3cU4w==}
+
+  '@event-calendar/resource-timeline@3.6.2':
+    resolution: {integrity: sha512-XceJOtEtRSL9DanL31I+O9NUoi1qz/YufkJFUg90Ldm1AzHCkj8F+q3972AgTUpMlM2GsfaCwLXgx2eZRyiTLA==}
+
+  '@event-calendar/time-grid@3.6.2':
+    resolution: {integrity: sha512-iMMBQg4ooNYLMsqz2DLu4QuT1zvuNfjcSI8P/wcjR1YeaL64wPbPCxW5B1PTecxTnaTIaITHP1oDzG/zvd20pA==}
+
   '@floating-ui/core@1.6.8':
     resolution: {integrity: sha512-7XJ9cPU+yI2QeLS+FCSlqNFZJq8arvswefkZrYI1yQBbftw6FyrZOxYSh+9S7z7TpeWlRt9zJ5IhM1WIL334jA==}
 
@@ -1080,6 +1134,24 @@ packages:
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
 
+  '@types/event-calendar__core@3.6.1':
+    resolution: {integrity: sha512-r71u/dK5+aOEuxP4gOZgQ2BblOaH+Y6ceV4BqRphn1B/2q7+uvzcPhNjC3EbEgj+vSmEBSw0FJwaaifIq6ABSQ==}
+
+  '@types/event-calendar__day-grid@3.4.1':
+    resolution: {integrity: sha512-R0DwQIbOOzueHn/Yxnt3Mhb6WhLGvF2iLzj5DNh+U8Iik1qk14WwMQk14E1iAXo+3Trus62RmkK5HCiij6Bt8g==}
+
+  '@types/event-calendar__interaction@3.4.1':
+    resolution: {integrity: sha512-C0Uxu2V4+3jWCBtSEP3aCDRZ2fHmuOvpw5FQEh6wjeEPGsRnpJZYfa63uHLdUGdmDFFYMvbJS1kaOF9w62c/GA==}
+
+  '@types/event-calendar__list@3.4.1':
+    resolution: {integrity: sha512-A0WmpzN/lDw570gulV6oX8hqllfk02BhkxtD0WbTw91Piox4fNhbP/5zVeiEWMTdhNgQLObUIx77FGoIdP7uDw==}
+
+  '@types/event-calendar__resource-timeline@3.4.1':
+    resolution: {integrity: sha512-usX7mB/SrGtj/20tOP+4Jfmv2mHClbj5Bx063KfiHxGzCTLMBTZ7Z1stgJzpp2EnfSOx/XC47bcdhwIQK1eojA==}
+
+  '@types/event-calendar__time-grid@3.4.1':
+    resolution: {integrity: sha512-c9lqBDqFuZgHJEomtdk/62BYQAE8pBh1Egc+z0EDAYrCH51aeF4N8bF1pAg98eDOKcQPYscGD2W83Z7EE3sASg==}
+
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
@@ -1268,6 +1340,9 @@ packages:
   chokidar@4.0.1:
     resolution: {integrity: sha512-n8enUVCED/KVRQlab1hr3MVpcVMvxtZjmEa956u+4YijlmQED223XMSYj2tLuKvr4jcCTzNNMpQDUer72MMmzA==}
     engines: {node: '>= 14.16.0'}
+
+  code-red@1.0.4:
+    resolution: {integrity: sha512-7qJWqItLA8/VPVlKJlFXU+NBlo/qyfs39aJcuMT/2ere32ZqvF5OSxgdM5xOfJJ7O429gg2HM47y8v9P+9wrNw==}
 
   color-convert@2.0.1:
     resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==}
@@ -1552,6 +1627,9 @@ packages:
   estraverse@5.3.0:
     resolution: {integrity: sha512-MMdARuVEQziNTeJD8DgMqmhwR11BRQ/cBP+pLtYdSTnf3MIO8fFeiINEbX36ZdNlfU/7A9f3gUw49B3oQsvwBA==}
     engines: {node: '>=4.0'}
+
+  estree-walker@3.0.3:
+    resolution: {integrity: sha512-7RUKfXgSMMkzt6ZuXmqapOurLGPPfgj6l9uRZ7lRGolvk0y2yocc35LdcxKC5PQZdn2DMqioAQ2NoWcrTKmm6g==}
 
   esutils@2.0.3:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
@@ -1886,6 +1964,9 @@ packages:
   path-scurry@1.11.1:
     resolution: {integrity: sha512-Xa4Nw17FS9ApQFJ9umLiJS4orGjm7ZzwUrwamcGQuHSzDyth9boKDaycYdDcZDuqYATXw4HFXgaqWTctW/v1HA==}
     engines: {node: '>=16 || 14 >=14.18'}
+
+  periscopic@3.1.0:
+    resolution: {integrity: sha512-vKiQ8RRtkl9P+r/+oefh25C3fhybptkHKCZSPlcXiJux2tJF55GnEj3BVn4A5gKfq9NWWXXrxkHBwVPUfH0opw==}
 
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
@@ -2249,6 +2330,10 @@ packages:
     peerDependenciesMeta:
       svelte:
         optional: true
+
+  svelte@4.2.19:
+    resolution: {integrity: sha512-IY1rnGr6izd10B0A8LqsBfmlT5OILVuZ7XsI0vdGPEvuonFV7NYEUK4dAkm9Zg2q0Um92kYjTpS1CAP3Nh/KWw==}
+    engines: {node: '>=16'}
 
   svelte@5.1.9:
     resolution: {integrity: sha512-nzq+PPKGS2PoEWDjAcXSrKSbXmmmOAxd6dAz1IhRusUpVkFS6DMELWPyBPGwu6TpO/gsgtFXwX0M4+pAR5gzKw==}
@@ -2697,6 +2782,35 @@ snapshots:
     dependencies:
       levn: 0.4.1
 
+  '@event-calendar/core@3.6.2':
+    dependencies:
+      svelte: 4.2.19
+
+  '@event-calendar/day-grid@3.6.2':
+    dependencies:
+      '@event-calendar/core': 3.6.2
+      svelte: 4.2.19
+
+  '@event-calendar/interaction@3.6.2':
+    dependencies:
+      '@event-calendar/core': 3.6.2
+      svelte: 4.2.19
+
+  '@event-calendar/list@3.6.2':
+    dependencies:
+      '@event-calendar/core': 3.6.2
+      svelte: 4.2.19
+
+  '@event-calendar/resource-timeline@3.6.2':
+    dependencies:
+      '@event-calendar/core': 3.6.2
+      svelte: 4.2.19
+
+  '@event-calendar/time-grid@3.6.2':
+    dependencies:
+      '@event-calendar/core': 3.6.2
+      svelte: 4.2.19
+
   '@floating-ui/core@1.6.8':
     dependencies:
       '@floating-ui/utils': 0.2.8
@@ -3139,6 +3253,20 @@ snapshots:
 
   '@types/estree@1.0.6': {}
 
+  '@types/event-calendar__core@3.6.1':
+    dependencies:
+      svelte: 4.2.19
+
+  '@types/event-calendar__day-grid@3.4.1': {}
+
+  '@types/event-calendar__interaction@3.4.1': {}
+
+  '@types/event-calendar__list@3.4.1': {}
+
+  '@types/event-calendar__resource-timeline@3.4.1': {}
+
+  '@types/event-calendar__time-grid@3.4.1': {}
+
   '@types/json-schema@7.0.15': {}
 
   '@types/linkify-it@5.0.0': {}
@@ -3343,6 +3471,14 @@ snapshots:
   chokidar@4.0.1:
     dependencies:
       readdirp: 4.0.2
+
+  code-red@1.0.4:
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.5.0
+      '@types/estree': 1.0.6
+      acorn: 8.14.0
+      estree-walker: 3.0.3
+      periscopic: 3.1.0
 
   color-convert@2.0.1:
     dependencies:
@@ -3617,6 +3753,10 @@ snapshots:
       estraverse: 5.3.0
 
   estraverse@5.3.0: {}
+
+  estree-walker@3.0.3:
+    dependencies:
+      '@types/estree': 1.0.6
 
   esutils@2.0.3: {}
 
@@ -3905,6 +4045,12 @@ snapshots:
     dependencies:
       lru-cache: 10.4.3
       minipass: 7.1.2
+
+  periscopic@3.1.0:
+    dependencies:
+      '@types/estree': 1.0.6
+      estree-walker: 3.0.3
+      is-reference: 3.0.2
 
   picocolors@1.1.1: {}
 
@@ -4253,6 +4399,23 @@ snapshots:
       postcss-scss: 4.0.9(postcss@8.4.47)
     optionalDependencies:
       svelte: 5.1.9
+
+  svelte@4.2.19:
+    dependencies:
+      '@ampproject/remapping': 2.3.0
+      '@jridgewell/sourcemap-codec': 1.5.0
+      '@jridgewell/trace-mapping': 0.3.25
+      '@types/estree': 1.0.6
+      acorn: 8.14.0
+      aria-query: 5.3.2
+      axobject-query: 4.1.0
+      code-red: 1.0.4
+      css-tree: 2.3.1
+      estree-walker: 3.0.3
+      is-reference: 3.0.2
+      locate-character: 3.0.0
+      magic-string: 0.30.12
+      periscopic: 3.1.0
 
   svelte@5.1.9:
     dependencies:

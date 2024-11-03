@@ -23,6 +23,16 @@
 			<span>Posts</span>
 		</AppRailAnchor>
 		<AppRailAnchor
+			href="/admin/events"
+			title="Events"
+			selected={$page.url.pathname.startsWith('/admin/events')}
+		>
+			<svelte:fragment slot="lead">
+				<span><i class="fa-solid fa-calendar"></i></span>
+			</svelte:fragment>
+			<span>Events</span>
+		</AppRailAnchor>
+		<AppRailAnchor
 			href="/admin/form-builder"
 			title="Form-Builder"
 			selected={$page.url.pathname.startsWith('/admin/form-builder')}
