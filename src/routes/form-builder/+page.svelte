@@ -11,6 +11,7 @@
 	interface FormElement {
 		slug: string;
 		label: string;
+		fullWidth?: boolean;
 	}
 
 	const formElements: FormElement[] = [
@@ -90,11 +91,23 @@
 		</header>
 		<section
 			bind:this={createdFormRef}
-			class="flex h-full w-full max-w-screen-lg flex-col items-center gap-4 p-4"
+			class="grid h-full w-full max-w-screen-lg auto-rows-max grid-cols-1 gap-4 p-4 md:grid-cols-2"
 		>
 			{#each createdForm.elements as element}
-				<div class="w-full cursor-move rounded-md bg-surface-700 p-4 hover:bg-surface-600">
-					{element.label}
+				<div
+					class="flex w-full cursor-move items-center justify-between rounded-md bg-surface-700 p-4 hover:bg-surface-600"
+					class:col-span-2={element.fullWidth}
+				>
+					<div>
+						<label class="label">
+							<span>{element.label}</span>
+							<input class="input" type="text" />
+						</label>
+					</div>
+					<label class="flex items-center space-x-2">
+						<input class="checkbox" type="checkbox" bind:checked={element.fullWidth} />
+						<span>Full Width</span>
+					</label>
 				</div>
 			{/each}
 		</section>
