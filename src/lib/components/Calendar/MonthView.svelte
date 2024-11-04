@@ -12,6 +12,7 @@
 		startOfToday,
 	} from 'date-fns';
 	import { de } from 'date-fns/locale';
+	import { fly } from 'svelte/transition';
 
 	let { events = $bindable() }: { events: Event[] } = $props();
 
@@ -35,12 +36,20 @@
 		'col-start-6',
 	];
 
+	const ANIMATION_DURATION = 100;
+	let animationDirection = $state<-1 | 0 | 1>(0);
+	let isAnimating = $state(false);
+
 	const prevMonth = () => {
+		animate(-1);
+
 		firstDayOfMonth = addMonths(firstDayOfMonth, -1);
 		lastDayOfMonth = endOfMonth(firstDayOfMonth);
 	};
 
 	const nextMonth = () => {
+		animate(1);
+
 		firstDayOfMonth = addMonths(firstDayOfMonth, 1);
 		lastDayOfMonth = endOfMonth(firstDayOfMonth);
 	};
@@ -52,13 +61,26 @@
 	const getEventTime = (event: Event) => {
 		return format(event.start, 'HH:mm') + '-' + format(event.end, 'HH:mm');
 	};
+
+	const animate = (direction: -1 | 1) => {
+		isAnimating = true;
+		animationDirection = direction;
+
+		setTimeout(() => {
+			isAnimating = false;
+			animationDirection = 0;
+		}, ANIMATION_DURATION);
+	};
 </script>
 
 <div
 	onwheel={(event) => {
 		event.preventDefault();
-		if (event.deltaY < 0) prevMonth();
-		if (event.deltaY > 0) nextMonth();
+
+		if (isAnimating) return;
+
+		if (event.deltaY < 0 || event.deltaX > 0) prevMonth();
+		if (event.deltaY > 0 || event.deltaX < 0) nextMonth();
 	}}
 >
 	<div class="my-4 flex items-center justify-between">
@@ -78,37 +100,42 @@
 			{/each}
 		</div>
 
-		<div class="grid flex-1 grid-cols-7">
-			{#each daysInMonth as day, i}
-				<div
-					onclick={() => (selectedDay = day)}
-					onkeydown={(event) => {
-						if (event.key === 'Enter') selectedDay = day;
-					}}
-					class="{i === 0 &&
-						colStartClasses[
-							getDay(day)
-						]} flex h-[120px] flex-col items-center justify-start gap-1 rounded-lg p-1 text-center hover:bg-surface-800"
-					role="button"
-					tabindex="0"
-				>
+		{#if !isAnimating}
+			<div
+				transition:fly={{ x: animationDirection * window.innerWidth, duration: ANIMATION_DURATION }}
+				class="grid flex-1 grid-cols-7"
+			>
+				{#each daysInMonth as day, i}
 					<div
-						class="flex h-8 w-8 items-center justify-center rounded-full"
-						class:variant-filled-primary={selectedDay === day}
-						class:variant-ringed-primary={isToday(day) && selectedDay !== day}
+						onclick={() => (selectedDay = day)}
+						onkeydown={(event) => {
+							if (event.key === 'Enter') selectedDay = day;
+						}}
+						class="{i === 0 &&
+							colStartClasses[
+								getDay(day)
+							]} flex h-[120px] flex-col items-center justify-start gap-1 rounded-lg p-1 text-center hover:bg-surface-800"
+						role="button"
+						tabindex="0"
 					>
-						{format(day, 'd')}
-					</div>
-					{#each getEventsForDay(day) as event (event.id)}
 						<div
-							class="card variant-filled-secondary flex w-full items-center justify-between px-2 py-1"
+							class="flex h-8 w-8 items-center justify-center rounded-full"
+							class:variant-filled-primary={selectedDay === day}
+							class:variant-ringed-primary={isToday(day) && selectedDay !== day}
 						>
-							<span class="text-bold truncate text-sm">{event.title}</span>
-							<span class="text-sm text-gray-300">{getEventTime(event)}</span>
+							{format(day, 'd')}
 						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
+						{#each getEventsForDay(day) as event (event.id)}
+							<div
+								class="card variant-filled-secondary flex w-full items-center justify-between px-2 py-1"
+							>
+								<span class="text-bold truncate text-sm">{event.title}</span>
+								<span class="text-sm text-gray-300">{getEventTime(event)}</span>
+							</div>
+						{/each}
+					</div>
+				{/each}
+			</div>
+		{/if}
 	</div>
 </div>
