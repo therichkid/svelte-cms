@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { FORM_ELEMENTS } from '$lib/models/form-builder/elements';
+	import { FORM_ELEMENTS } from '$lib/models/form-builder/element';
 	import Sortable from 'sortablejs';
 	import { onMount } from 'svelte';
 

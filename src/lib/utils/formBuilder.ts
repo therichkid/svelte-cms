@@ -1,11 +1,11 @@
-import { FormElementRef, type FormElement } from '$lib/models/form-builder/elements';
+import { FormElementRef, type FormElement } from '$lib/models/form-builder/element';
 import type {
 	DateNode,
 	FormNode,
 	HeadingNode,
 	InputNode,
 	ParagraphNode,
-} from '$lib/models/form-builder/nodes';
+} from '$lib/models/form-builder/node';
 import { v4 as uuidv4 } from 'uuid';
 
 export const createNodeFromElement = (element: FormElement): FormNode => {

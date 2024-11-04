@@ -1,4 +1,4 @@
-import type { FormElementRef } from './elements';
+import type { FormElementRef } from './element';
 
 interface BaseNode {
 	id: string;

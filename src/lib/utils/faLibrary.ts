@@ -1,10 +1,10 @@
 import { dom, library } from '@fortawesome/fontawesome-svg-core';
 import {
-	faArrowLeft,
-	faArrowRight,
 	faBars,
 	faBold,
 	faCalendar,
+	faChevronLeft,
+	faChevronRight,
 	faEllipsisH,
 	faGear,
 	faGripVertical,
@@ -22,11 +22,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
-	faArrowLeft,
-	faArrowRight,
 	faBars,
 	faBold,
 	faCalendar,
+	faChevronLeft,
+	faChevronRight,
 	faEllipsisH,
 	faGear,
 	faGripVertical,

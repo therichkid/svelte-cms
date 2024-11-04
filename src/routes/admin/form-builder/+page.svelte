@@ -1,8 +1,8 @@
 <script lang="ts">
 	import ElementPicker from '$components/FormBuilder/ElementPicker.svelte';
-	import { FORM_ELEMENTS, FormElementRef } from '$lib/models/form-builder/elements';
+	import { FORM_ELEMENTS, FormElementRef } from '$lib/models/form-builder/element';
 	import type { FormTree } from '$lib/models/form-builder/form';
-	import type { FormNode } from '$lib/models/form-builder/nodes';
+	import type { FormNode } from '$lib/models/form-builder/node';
 	import { createNodeFromElement } from '$utils/formBuilder';
 	import { capitalize } from '$utils/string';
 	import Sortable from 'sortablejs';
@@ -145,7 +145,6 @@
 		<section
 			bind:this={formTreeRef}
 			class="grid h-full w-full max-w-screen-lg auto-rows-max grid-cols-1 gap-4 p-4 md:grid-cols-2"
-			role="list"
 		>
 			{#each formTree.nodes as node}
 				<div

@@ -1,4 +1,4 @@
-import type { FormNode } from './nodes';
+import type { FormNode } from './node';
 
 export interface FormTree {
 	id: string;
