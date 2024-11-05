@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Event } from '$lib/models/event';
+	import { throttleUntilIdle } from '$utils/debounce';
 	import {
 		addMonths,
 		eachDayOfInterval,
@@ -74,14 +75,12 @@
 </script>
 
 <div
-	onwheel={(event) => {
+	onwheel={throttleUntilIdle((event: WheelEvent) => {
 		event.preventDefault();
-
-		if (isAnimating) return;
 
 		if (event.deltaY < 0 || event.deltaX > 0) prevMonth();
 		if (event.deltaY > 0 || event.deltaX < 0) nextMonth();
-	}}
+	}, 200)}
 >
 	<div class="my-4 flex items-center justify-between">
 		<button onclick={() => prevMonth()} class="variant-soft btn-icon" aria-label="Previous Month">
