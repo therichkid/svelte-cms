@@ -1,23 +1,32 @@
-import { fail, redirect } from '@sveltejs/kit';
+import { db } from '$lib/server/db';
+import { fileMeta as fileMetaTable } from '$lib/server/db/schema';
+import { fail } from '@sveltejs/kit';
 import { format } from 'date-fns';
 import { writeFile } from 'fs/promises';
 import path from 'path';
 import sharp from 'sharp';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ locals }) => {
-	if (!locals.user) {
-		throw redirect(302, '/login');
-	}
+interface OptimizedImage {
+	name: string;
+	width: number;
+	buffer: Buffer;
+}
 
-	// Fetch data or perform other server-side logic here
+export const load: PageServerLoad = async () => {
+	const files = await db.select().from(fileMetaTable);
+
 	return {
-		files: [], // Replace with actual data
+		files,
 	};
 };
 
 export const actions: Actions = {
-	upload: async ({ request }) => {
+	upload: async ({ request, locals }) => {
+		if (!locals.user) {
+			return fail(401, { error: 'Unauthorized' });
+		}
+
 		const data = await request.formData();
 		const file = data.get('file') as File;
 
@@ -35,20 +44,9 @@ export const actions: Actions = {
 			optimizedImages.map(({ name, buffer }) => writeFile(`static/uploads/${name}`, buffer)),
 		);
 
-		return { success: true };
-	},
+		const fileMeta = await storeFileMeta(file, optimizedImages, locals.user.id);
 
-	delete: async ({ request }) => {
-		const data = await request.formData();
-		const fileId = data.get('fileId');
-
-		if (!fileId) {
-			return { error: 'No file ID provided' };
-		}
-
-		// Handle file deletion logic here
-
-		return { success: true };
+		return { file: fileMeta };
 	},
 };
 
@@ -75,14 +73,36 @@ const compressAndResizeImage = async (file: File) => {
 	const fileName = path.parse(file.name).name;
 
 	const widths = [320, 640, 800, 1024, 1200];
-	const optimizedImages: { name: string; buffer: Buffer }[] = [];
+	const optimizedImages: OptimizedImage[] = [];
 
 	for (const [i, width] of widths.entries()) {
 		if (i > 0 && (metadata.width ?? 0) < width) continue;
 
 		const optimizedBuffer = await sharp(buffer).resize(width).avif().toBuffer();
-		optimizedImages.push({ name: `${date}_${fileName}_${width}.avif`, buffer: optimizedBuffer });
+		optimizedImages.push({
+			name: `${date}_${fileName}_${width}.avif`,
+			width,
+			buffer: optimizedBuffer,
+		});
 	}
 
 	return optimizedImages;
+};
+
+const storeFileMeta = async (file: File, optimizedImages: OptimizedImage[], userId: number) => {
+	const fileName = path.parse(file.name).name;
+	const largestImage = [...optimizedImages].pop();
+
+	const [result] = await db
+		.insert(fileMetaTable)
+		.values({
+			name: fileName,
+			mimeType: 'image/avif',
+			size: largestImage?.buffer.byteLength ?? 0,
+			sources: optimizedImages.map(({ name, width }) => ({ name, width })),
+			userId,
+		})
+		.returning();
+
+	return result;
 };

@@ -1,5 +1,14 @@
 import { sql } from 'drizzle-orm';
-import { integer, pgEnum, pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
+import {
+	integer,
+	jsonb,
+	pgEnum,
+	pgTable,
+	serial,
+	text,
+	timestamp,
+	varchar,
+} from 'drizzle-orm/pg-core';
 
 export const userRole = pgEnum('user_role', ['viewer', 'editor', 'admin']);
 
@@ -68,3 +77,18 @@ export const page = pgTable('pages', {
 });
 
 export type Page = typeof page.$inferSelect;
+
+export const fileMeta = pgTable('file_meta', {
+	id: serial('id').unique(),
+	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+	updatedAt: timestamp('updated_at', { withTimezone: true })
+		.defaultNow()
+		.$onUpdate(() => new Date()),
+	userId: integer('user_id')
+		.notNull()
+		.references(() => user.id, { onDelete: 'cascade' }),
+	name: varchar('name', { length: 255 }).notNull(),
+	mimeType: varchar('mime_type', { length: 255 }).notNull(),
+	size: integer('size').notNull(),
+	sources: jsonb('sources').notNull(),
+});
