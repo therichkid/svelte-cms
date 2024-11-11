@@ -59,7 +59,7 @@
 	{/if}
 
 	<div>
-		<section class="grid grid-cols-2 gap-4 md:grid-cols-3">
+		<section class="grid grid-cols-3 gap-4 md:grid-cols-4 lg:grid-cols-6">
 			{#each files as file}
 				<div>
 					<img
@@ -67,7 +67,8 @@
 						srcset={(file.sources as ImageSource[])
 							.map((source) => `/uploads/${source.name} ${source.width}w`)
 							.join(', ')}
-						alt=""
+						sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 16vw"
+						alt={file.name}
 					/>
 				</div>
 			{/each}
