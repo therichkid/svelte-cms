@@ -16,5 +16,5 @@ export default {
 		extend: {},
 	},
 
-	plugins: [forms, typography, skeleton({ themes: { preset: ['skeleton'] } })],
+	plugins: [forms, typography, skeleton({ themes: { preset: ['modern'] } })],
 } satisfies Config;

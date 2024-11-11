@@ -8,7 +8,7 @@
 		Paginator,
 	} from '@skeletonlabs/skeleton';
 	import type { SubmitFunction } from '@sveltejs/kit';
-	import { CREATE_POST_ID } from './[postId]/mode.js';
+	import { CREATE_POST_ID } from './[postId]/mode';
 
 	let { data } = $props();
 	let posts = $state(data.posts);

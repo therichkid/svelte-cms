@@ -3,9 +3,9 @@
 	import Editor from '$components/TipTap/Editor.svelte';
 	import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
-	import type { ActionData, SubmitFunction } from './$types.js';
-	import { PostMode } from './mode.js';
-	import type { PostSchemaKey } from './schema.js';
+	import type { ActionData, SubmitFunction } from './$types';
+	import { PostMode } from './mode';
+	import type { PostSchemaKey } from './schema';
 
 	let { data, form } = $props();
 

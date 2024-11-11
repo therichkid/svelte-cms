@@ -2,7 +2,8 @@ import { db } from '$lib/server/db';
 import { fileMeta as fileMetaTable } from '$lib/server/db/schema';
 import { fail } from '@sveltejs/kit';
 import { format } from 'date-fns';
-import { writeFile } from 'fs/promises';
+import { eq } from 'drizzle-orm';
+import { unlink, writeFile } from 'fs/promises';
 import path from 'path';
 import sharp from 'sharp';
 import type { Actions, PageServerLoad } from './$types';
@@ -47,6 +48,35 @@ export const actions: Actions = {
 		const fileMeta = await storeFileMeta(file, optimizedImages, locals.user.id);
 
 		return { file: fileMeta };
+	},
+
+	delete: async ({ request }) => {
+		const data = await request.formData();
+		const id = data.get('id');
+
+		if (!id || typeof id !== 'string') {
+			return fail(400);
+		}
+
+		const [file] = await db
+			.select()
+			.from(fileMetaTable)
+			.where(eq(fileMetaTable.id, parseInt(id)));
+
+		if (!file) {
+			return fail(404, { error: 'File not found' });
+		}
+
+		const sources = file.sources as { name: string }[];
+		await Promise.all(
+			sources.map(({ name }) => {
+				return unlink(`static/uploads/${name}`);
+			}),
+		);
+
+		await db.delete(fileMetaTable).where(eq(fileMetaTable.id, parseInt(id)));
+
+		return { status: 204 };
 	},
 };
 

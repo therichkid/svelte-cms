@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { ActionData, SubmitFunction } from './$types.js';
+	import type { ActionData, SubmitFunction } from './$types';
 	import type { LoginSchemaKey } from './schema';
 
 	let { form } = $props();
