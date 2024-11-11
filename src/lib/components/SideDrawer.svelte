@@ -43,6 +43,16 @@
 			<span>Form-Builder</span>
 		</AppRailAnchor>
 	</svelte:fragment>
+	<AppRailAnchor
+		href="/admin/files"
+		title="Files"
+		selected={$page.url.pathname.startsWith('/admin/files')}
+	>
+		<svelte:fragment slot="lead">
+			<span><i class="fa-solid fa-file-arrow-up"></i></span>
+		</svelte:fragment>
+		<span>Uploads</span>
+	</AppRailAnchor>
 
 	<!-- Bottom -->
 	<svelte:fragment slot="trail">
