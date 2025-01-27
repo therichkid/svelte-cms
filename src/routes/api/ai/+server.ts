@@ -1,7 +1,8 @@
 import { generateResponse } from '$lib/server/ai';
 import { error } from '@sveltejs/kit';
+import type { RequestEvent } from '@sveltejs/kit';
 
-export const POST = async (event) => {
+export const POST = async (event: RequestEvent) => {
 	const { user } = event.locals;
 	if (!user) {
 		return error(401, { message: 'Unauthorized' });

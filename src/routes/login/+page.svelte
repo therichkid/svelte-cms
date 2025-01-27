@@ -26,7 +26,9 @@
 	};
 
 	const resetFieldError = (control: LoginSchemaKey) => {
-		fieldErrors?.[control] && (fieldErrors[control] = undefined);
+		if (fieldErrors?.[control]) {
+			fieldErrors[control] = undefined;
+		}
 		formErrors = undefined;
 	};
 </script>
