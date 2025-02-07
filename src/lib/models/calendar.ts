@@ -1,3 +1,3 @@
 export enum CalendarView {
-	Month = 'month',
+  Month = 'month',
 }

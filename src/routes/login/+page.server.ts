@@ -9,52 +9,52 @@ import type { Actions, PageServerLoad } from './$types';
 import { loginSchema } from './schema';
 
 export const load: PageServerLoad = async (event) => {
-	if (event.locals.user) {
-		return redirect(302, '/admin');
-	}
-	return {};
+  if (event.locals.user) {
+    return redirect(302, '/admin');
+  }
+  return {};
 };
 
 export const actions: Actions = {
-	default: async (event) => {
-		const formData = Object.fromEntries(await event.request.formData());
+  default: async (event) => {
+    const formData = Object.fromEntries(await event.request.formData());
 
-		const { data, success, error } = loginSchema.safeParse(formData);
+    const { data, success, error } = loginSchema.safeParse(formData);
 
-		if (!success) {
-			const { fieldErrors } = error.flatten();
+    if (!success) {
+      const { fieldErrors } = error.flatten();
 
-			const { username } = formData;
-			return fail(400, { data: { username, password: '' }, fieldErrors });
-		}
+      const { username } = formData;
+      return fail(400, { data: { username, password: '' }, fieldErrors });
+    }
 
-		const { username, password } = data;
+    const { username, password } = data;
 
-		const existingUser = await db
-			.select({ id: userTable.id, passwordHash: userTable.passwordHash })
-			.from(userTable)
-			.where(or(eq(userTable.name, username), eq(userTable.email, username)));
+    const existingUser = await db
+      .select({ id: userTable.id, passwordHash: userTable.passwordHash })
+      .from(userTable)
+      .where(or(eq(userTable.name, username), eq(userTable.email, username)));
 
-		if (!existingUser.length) {
-			return fail(400, {
-				data: { username, password: '' },
-				formErrors: ['Incorrect username or password. Please try again...'],
-			});
-		}
+    if (!existingUser.length) {
+      return fail(400, {
+        data: { username, password: '' },
+        formErrors: ['Incorrect username or password. Please try again...'],
+      });
+    }
 
-		const [{ id: userId, passwordHash }] = existingUser;
+    const [{ id: userId, passwordHash }] = existingUser;
 
-		const validPassword = await verifyPassword(password, passwordHash);
-		if (!validPassword) {
-			return fail(400, {
-				data: { username, password: '' },
-				formErrors: ['Incorrect username or password. Please try again...'],
-			});
-		}
+    const validPassword = await verifyPassword(password, passwordHash);
+    if (!validPassword) {
+      return fail(400, {
+        data: { username, password: '' },
+        formErrors: ['Incorrect username or password. Please try again...'],
+      });
+    }
 
-		const session = await createSession(userId);
-		setAuthCookie(event, session);
+    const session = await createSession(userId);
+    setAuthCookie(event, session);
 
-		return redirect(302, '/admin');
-	},
+    return redirect(302, '/admin');
+  },
 };

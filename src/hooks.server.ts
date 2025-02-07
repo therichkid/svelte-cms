@@ -3,32 +3,32 @@ import { validateSession } from '$lib/server/auth/session';
 import { redirect, type Handle, type RequestEvent } from '@sveltejs/kit';
 
 const handleAuth: Handle = async ({ event, resolve }) => {
-	const { user, session } = await getUserAndSession(event);
+  const { user, session } = await getUserAndSession(event);
 
-	event.locals.user = user;
-	event.locals.session = session;
+  event.locals.user = user;
+  event.locals.session = session;
 
-	if (session) {
-		setAuthCookie(event, session);
-	} else {
-		deleteAuthCookie(event);
-	}
+  if (session) {
+    setAuthCookie(event, session);
+  } else {
+    deleteAuthCookie(event);
+  }
 
-	if (event.url.pathname.startsWith('/admin') && !user) {
-		return redirect(302, '/login');
-	}
+  if (event.url.pathname.startsWith('/admin') && !user) {
+    return redirect(302, '/login');
+  }
 
-	return resolve(event);
+  return resolve(event);
 };
 
 const getUserAndSession = async (event: RequestEvent) => {
-	const sessionId = event.cookies.get(SESSION_COOKIE_NAME);
+  const sessionId = event.cookies.get(SESSION_COOKIE_NAME);
 
-	if (!sessionId) {
-		return { user: null, session: null };
-	}
+  if (!sessionId) {
+    return { user: null, session: null };
+  }
 
-	return await validateSession(sessionId);
+  return await validateSession(sessionId);
 };
 
 export const handle: Handle = handleAuth;

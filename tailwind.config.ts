@@ -5,16 +5,16 @@ import { join } from 'path';
 import type { Config } from 'tailwindcss';
 
 export default {
-	darkMode: 'media',
+  darkMode: 'media',
 
-	content: [
-		'./src/**/*.{html,js,svelte,ts}',
-		join(require.resolve('@skeletonlabs/skeleton'), '../**/*.{html,js,svelte,ts}'),
-	],
+  content: [
+    './src/**/*.{html,js,svelte,ts}',
+    join(require.resolve('@skeletonlabs/skeleton'), '../**/*.{html,js,svelte,ts}'),
+  ],
 
-	theme: {
-		extend: {},
-	},
+  theme: {
+    extend: {},
+  },
 
-	plugins: [forms, typography, skeleton({ themes: { preset: ['modern'] } })],
+  plugins: [forms, typography, skeleton({ themes: { preset: ['modern'] } })],
 } satisfies Config;
