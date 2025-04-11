@@ -60,7 +60,7 @@
         name: 'submit',
         label: 'Submit',
         action: 'submit',
-        cssClasses: 'variant-filled-primary',
+        cssClasses: 'preset-filled-primary-500',
       },
     ],
   });

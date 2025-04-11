@@ -1,7 +1,7 @@
 <script lang="ts">
   import { enhance } from '$app/forms';
   import Editor from '$components/TipTap/Editor.svelte';
-  import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
+  import { Accordion } from '@skeletonlabs/skeleton-svelte';
   import { onMount } from 'svelte';
   import type { ActionData, SubmitFunction } from './$types';
   import { PostMode } from './mode';
@@ -64,17 +64,17 @@
       class="input {fieldErrors?.title && 'input-error'}"
     />
     {#if fieldErrors?.title}
-      <p class="mt-2 text-sm text-error-500">{fieldErrors.title[0]}</p>
+      <p class="text-error-500 mt-2 text-sm">{fieldErrors.title[0]}</p>
     {/if}
   </label>
 
   <Accordion>
-    <AccordionItem>
-      <svelte:fragment slot="lead">
+    <Accordion.Item value="excerpt">
+      {#snippet lead()}
         <span><i class="fa fa-list"></i></span>
-      </svelte:fragment>
-      <svelte:fragment slot="summary">Excerpt</svelte:fragment>
-      <svelte:fragment slot="content">
+      {/snippet}
+      {#snippet control()}Excerpt{/snippet}
+      {#snippet panel()}
         <textarea
           name="excerpt"
           bind:value={excerpt}
@@ -83,23 +83,23 @@
           class="textarea {fieldErrors?.excerpt && 'input-error'}"
         ></textarea>
         {#if fieldErrors?.excerpt}
-          <p class="mt-2 text-sm text-error-500">{fieldErrors.excerpt[0]}</p>
+          <p class="text-error-500 mt-2 text-sm">{fieldErrors.excerpt[0]}</p>
         {/if}
-      </svelte:fragment>
-    </AccordionItem>
+      {/snippet}
+    </Accordion.Item>
   </Accordion>
 
   <Editor bind:value={content} label="Content" />
   <input type="hidden" name="content" value={content} />
   {#if fieldErrors?.content}
-    <p class="mt-2 text-sm text-error-500">{fieldErrors.content[0]}</p>
+    <p class="text-error-500 mt-2 text-sm">{fieldErrors.content[0]}</p>
   {/if}
 
   <div class="mt-2 flex justify-end gap-2">
-    <button type="button" onclick={() => window.history.back()} class="variant-soft btn">
+    <button type="button" onclick={() => window.history.back()} class="preset-tonal btn">
       Cancel
     </button>
-    <button class="variant-filled-primary btn">
+    <button class="preset-filled-primary-500 btn">
       {data.mode === PostMode.CREATE ? 'Create' : 'Update'}
     </button>
   </div>

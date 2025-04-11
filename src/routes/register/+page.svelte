@@ -100,7 +100,7 @@
     </label>
 
     <div class="mt-3 flex justify-center">
-      <button class="variant-filled-primary btn">Register</button>
+      <button class="preset-filled-primary-500 btn">Register</button>
     </div>
   </form>
 

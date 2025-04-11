@@ -1,26 +1,16 @@
 <script lang="ts">
   import { enhance } from '$app/forms';
   import { goto } from '$app/navigation';
-  import {
-    getModalStore,
-    type ModalSettings,
-    type PaginationSettings,
-    Paginator,
-  } from '@skeletonlabs/skeleton';
+  import { Pagination } from '@skeletonlabs/skeleton-svelte';
   import type { SubmitFunction } from '@sveltejs/kit';
   import { CREATE_POST_ID } from './[postId]/mode';
 
   let { data } = $props();
   let posts = $state(data.posts);
 
-  const modalStore = getModalStore();
-
-  let paginationSettings = $state<PaginationSettings>({
-    page: data.page - 1,
-    limit: data.limit,
-    size: data.postsCount,
-    amounts: [5, 10, 25],
-  });
+  let page = $state(data.page - 1);
+  let pageLimit = $state(data.limit);
+  let pageSize = $state(data.postsCount);
 
   const onPageChange = (e: CustomEvent) => {
     const page = e.detail;
@@ -32,7 +22,7 @@
     goto(`?page=${data.page}&limit=${limit}`);
   };
 
-  const deletePost: SubmitFunction = async ({ formData, cancel }) => {
+  const deletePost: SubmitFunction = ({ formData, cancel }) => {
     const id = formData.get('id');
 
     if (!id || typeof id !== 'string') {
@@ -41,15 +31,8 @@
 
     const post = posts.find((p) => p.id === parseInt(id));
 
-    const confirmed = await new Promise((resolve) => {
-      const confirmModal: ModalSettings = {
-        type: 'confirm',
-        title: 'Delete Post',
-        body: `Are you sure you want to delete "${post?.title}"?`,
-        response: resolve,
-      };
-      modalStore.trigger(confirmModal);
-    });
+    // TODO: Add Skeleton confirmation dialog
+    const confirmed = confirm(`Are you sure you want to delete "${post?.title}"?`);
 
     if (!confirmed) {
       return cancel();
@@ -64,11 +47,11 @@
 <div class="mb-3 flex w-full justify-between">
   <h1 class="h3 font-bold">Posts</h1>
 
-  <a href="posts/{CREATE_POST_ID}" class="variant-filled-primary btn">Add New</a>
+  <a href="posts/{CREATE_POST_ID}" class="preset-filled-primary-500 btn">Add New</a>
 </div>
 
 <div class="table-container">
-  <table class="table table-hover">
+  <table class="table">
     <thead>
       <tr>
         <th class="table-cell-fit text-center">
@@ -90,13 +73,13 @@
           <td class="!align-middle">
             <a href={`posts/${post.id}`} class="anchor">{post.title}</a>
           </td>
-          <td class="table-cell-fit whitespace-nowrap text-center !align-middle">
+          <td class="table-cell-fit text-center !align-middle whitespace-nowrap">
             {post.userName}
           </td>
           <td class="table-cell-fit text-center !align-middle">
             {post.updatedAt?.toLocaleString()}
           </td>
-          <td class="table-cell-fit whitespace-nowrap text-center !align-middle">{post.status}</td>
+          <td class="table-cell-fit text-center !align-middle whitespace-nowrap">{post.status}</td>
           <td class="table-cell-fit !align-middle">
             <div class="flex justify-end">
               <a href={`posts/${post.id}`} class="btn-icon" aria-label="Edit Post">
@@ -119,14 +102,8 @@
           <input class="checkbox" type="checkbox" />
         </th>
         <th colspan="2"></th>
-        <th colspan="3" class="table-cell-fit whitespace-nowrap text-right">
-          <Paginator
-            bind:settings={paginationSettings}
-            on:page={onPageChange}
-            on:amount={onPageLimitChange}
-            showNumerals
-            maxNumerals={1}
-          ></Paginator>
+        <th colspan="3" class="table-cell-fit text-right whitespace-nowrap">
+          <Pagination data={posts} {page} {pageSize}></Pagination>
         </th>
       </tr>
     </tfoot>

@@ -83,11 +83,11 @@
   }, 200)}
 >
   <div class="my-4 flex items-center justify-between">
-    <button onclick={() => prevMonth()} class="variant-soft btn-icon" aria-label="Previous Month">
+    <button onclick={() => prevMonth()} class="preset-tonal btn-icon" aria-label="Previous Month">
       <span><i class="fa-solid fa-chevron-left"></i></span>
     </button>
     <h2 class="h4">{displayedMonth}</h2>
-    <button onclick={() => nextMonth()} class="variant-soft btn-icon" aria-label="Next Month">
+    <button onclick={() => nextMonth()} class="preset-tonal btn-icon" aria-label="Next Month">
       <span><i class="fa-solid fa-chevron-right"></i></span>
     </button>
   </div>
@@ -119,14 +119,14 @@
           >
             <div
               class="flex h-8 w-8 items-center justify-center rounded-full"
-              class:variant-filled-primary={selectedDay === day}
-              class:variant-ringed-primary={isToday(day) && selectedDay !== day}
+              class:preset-filled-primary-500={selectedDay === day}
+              class:preset-outlined-primary-500={isToday(day) && selectedDay !== day}
             >
               {format(day, 'd')}
             </div>
             {#each getEventsForDay(day) as event (event.id)}
               <div
-                class="card variant-filled-secondary flex w-full items-center justify-between px-2 py-1"
+                class="card preset-filled-secondary-500 flex w-full items-center justify-between px-2 py-1"
               >
                 <span class="text-bold truncate text-sm">{event.title}</span>
                 <span class="text-sm text-gray-300">{getEventTime(event)}</span>

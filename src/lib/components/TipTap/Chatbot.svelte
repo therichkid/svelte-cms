@@ -1,14 +1,9 @@
 <script lang="ts">
   import { TypeWriter } from '$utils/TypeWriter';
-  import type { PopupSettings } from '@skeletonlabs/skeleton';
-  import { popup, ProgressRadial } from '@skeletonlabs/skeleton';
+  import { Popover, ProgressRing } from '@skeletonlabs/skeleton-svelte';
   import geminiLogo from '../../assets/gemini-logo.svg';
 
-  const chatbotMenuPopup: PopupSettings = {
-    event: 'click',
-    target: 'chatbotMenu',
-    placement: 'top-end',
-  };
+  let chatbotMenuOpen = $state(false);
 
   let { value = $bindable() }: { value: string | FormDataEntryValue | undefined } = $props();
 
@@ -60,59 +55,58 @@
   };
 </script>
 
-<div class="absolute bottom-3 right-3">
-  <button
-    type="button"
-    use:popup={chatbotMenuPopup}
-    class="variant-filled btn-icon h-14 w-14 animate-pulse border-2 border-[#004a77] p-2 shadow-xl"
+<div class="absolute right-3 bottom-3">
+  <Popover
+    open={chatbotMenuOpen}
+    onOpenChange={({ open }) => (chatbotMenuOpen = open)}
+    positioning={{ placement: 'top-end' }}
+    triggerBase="preset-filled btn-icon h-8 w-8 animate-pulse border-2 rounded-full border-[#004a77] p-2 shadow-xl"
+    contentBase="card w-96 p-4 bg-surface-900 shadow-xl"
   >
-    <img src={geminiLogo} alt="Gemini Logo" />
-  </button>
-</div>
-
-<div class="card w-96 p-4 shadow-xl" data-popup="chatbotMenu">
-  <div class="p-2">
-    <h3 class="h4 font-bold">Ask Gemini!</h3>
-  </div>
-  <hr class="my-2" />
-  <ul class="list-nav">
-    {#each promptRecommendations as recommendation}
-      <li>
+    {#snippet trigger()}
+      <img src={geminiLogo} alt="Gemini Logo" />
+    {/snippet}
+    {#snippet content()}
+      <div class="p-2">
+        <h3 class="h5">Ask Gemini!</h3>
+      </div>
+      <hr class="my-2" />
+      {#each promptRecommendations as recommendation}
         <button
           type="button"
           onclick={async () => {
             prompt = recommendation;
             await askGemini();
           }}
-          class="w-full text-left"
+          class="hover:bg-surface-800 inline-block w-full rounded-md p-2 text-left"
         >
           {recommendation}
         </button>
-      </li>
-    {/each}
-  </ul>
+      {/each}
 
-  <div class="py-2">
-    <input
-      type="text"
-      name="prompt"
-      bind:value={prompt}
-      placeholder="Ask me anything..."
-      class="input"
-    />
-    <button
-      type="button"
-      onclick={askGemini}
-      disabled={!prompt || waitingForAnswer}
-      class="variant-filled-primary btn mt-4"
-    >
-      {#if waitingForAnswer}
-        <span>&nbsp;</span>
-        <ProgressRadial class="w-5" />
-        <span>&nbsp;</span>
-      {:else}
-        Send
-      {/if}
-    </button>
-  </div>
+      <div class="py-2">
+        <input
+          type="text"
+          name="prompt"
+          bind:value={prompt}
+          placeholder="Ask me anything..."
+          class="input"
+        />
+        <button
+          type="button"
+          onclick={askGemini}
+          disabled={!prompt || waitingForAnswer}
+          class="preset-filled-primary-500 btn mt-4"
+        >
+          {#if waitingForAnswer}
+            <span>&nbsp;</span>
+            <ProgressRing value={null} size="w-5" />
+            <span>&nbsp;</span>
+          {:else}
+            Send
+          {/if}
+        </button>
+      </div>
+    {/snippet}
+  </Popover>
 </div>

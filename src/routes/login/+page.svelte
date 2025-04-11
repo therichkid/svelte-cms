@@ -68,7 +68,7 @@
     </label>
 
     <div class="mt-3 flex justify-center">
-      <button class="variant-filled-primary btn">Login</button>
+      <button class="preset-filled-primary-500 btn">Login</button>
     </div>
   </form>
 

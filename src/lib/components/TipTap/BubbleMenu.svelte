@@ -80,11 +80,11 @@
     </option>
   </select>
 
-  <div class="variant-soft btn-group">
+  <div class="preset-tonal">
     <button
       type="button"
       onclick={() => editor.chain().focus().toggleBold().run()}
-      class:variant-filled-primary={activeNodes.has('bold')}
+      class:preset-filled-primary-500={activeNodes.has('bold')}
       aria-label="Bold"
     >
       <span><i class="fa-solid fa-bold"></i></span>
@@ -92,7 +92,7 @@
     <button
       type="button"
       onclick={() => editor.chain().focus().toggleItalic().run()}
-      class:variant-filled-primary={activeNodes.has('italic')}
+      class:preset-filled-primary-500={activeNodes.has('italic')}
       aria-label="Italic"
     >
       <span><i class="fa-solid fa-italic"></i></span>
@@ -100,7 +100,7 @@
     <button
       type="button"
       onclick={() => editor.chain().focus().toggleUnderline().run()}
-      class:variant-filled-primary={activeNodes.has('underline')}
+      class:preset-filled-primary-500={activeNodes.has('underline')}
       aria-label="Underline"
     >
       <span><i class="fa-solid fa-underline"></i></span>
@@ -108,7 +108,7 @@
     <button
       type="button"
       onclick={() => editor.chain().focus().toggleStrike().run()}
-      class:variant-filled-primary={activeNodes.has('strike')}
+      class:preset-filled-primary-500={activeNodes.has('strike')}
       aria-label="Strike"
     >
       <span><i class="fa-solid fa-strikethrough"></i></span>

@@ -116,6 +116,6 @@ const createButton = (): FormNode => {
     name: 'button',
     label: 'Submit',
     action: 'submit',
-    cssClasses: 'variant-filled-primary',
+    cssClasses: 'preset-filled-primary-500',
   };
 };

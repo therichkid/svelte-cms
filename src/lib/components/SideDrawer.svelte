@@ -1,70 +1,50 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import { AppRail, AppRailAnchor } from '@skeletonlabs/skeleton';
+  import { Navigation } from '@skeletonlabs/skeleton-svelte';
 </script>
 
-<AppRail>
-  <!-- Top -->
-  <svelte:fragment slot="lead">
-    <AppRailAnchor href="/" title="Home" selected={$page.url.pathname === '/'}>
-      <svelte:fragment slot="lead">
-        <span><i class="fa-solid fa-home"></i></span>
-      </svelte:fragment>
-      <span>Home</span>
-    </AppRailAnchor>
-    <AppRailAnchor
+<Navigation.Rail>
+  {#snippet tiles()}
+    <Navigation.Tile href="/" label="Home" selected={$page.url.pathname === '/'}>
+      <span><i class="fa-solid fa-home fa-xl"></i></span>
+    </Navigation.Tile>
+    <Navigation.Tile
       href="/admin/posts"
-      title="Posts"
+      label="Posts"
       selected={$page.url.pathname.startsWith('/admin/posts')}
     >
-      <svelte:fragment slot="lead">
-        <span><i class="fa-solid fa-newspaper"></i></span>
-      </svelte:fragment>
-      <span>Posts</span>
-    </AppRailAnchor>
-    <AppRailAnchor
+      <span><i class="fa-solid fa-newspaper fa-xl"></i></span>
+    </Navigation.Tile>
+    <Navigation.Tile
       href="/admin/events"
-      title="Events"
+      label="Events"
       selected={$page.url.pathname.startsWith('/admin/events')}
     >
-      <svelte:fragment slot="lead">
-        <span><i class="fa-solid fa-calendar"></i></span>
-      </svelte:fragment>
-      <span>Events</span>
-    </AppRailAnchor>
-    <AppRailAnchor
+      <span><i class="fa-solid fa-calendar fa-xl"></i></span>
+    </Navigation.Tile>
+    <Navigation.Tile
       href="/admin/form-builder"
-      title="Form-Builder"
+      label="Forms"
       selected={$page.url.pathname.startsWith('/admin/form-builder')}
     >
-      <svelte:fragment slot="lead">
-        <span><i class="fa-solid fa-hammer"></i></span>
-      </svelte:fragment>
-      <span>Form-Builder</span>
-    </AppRailAnchor>
-  </svelte:fragment>
-  <AppRailAnchor
-    href="/admin/files"
-    title="Files"
-    selected={$page.url.pathname.startsWith('/admin/files')}
-  >
-    <svelte:fragment slot="lead">
-      <span><i class="fa-solid fa-file-arrow-up"></i></span>
-    </svelte:fragment>
-    <span>Uploads</span>
-  </AppRailAnchor>
+      <span><i class="fa-solid fa-hammer fa-xl"></i></span>
+    </Navigation.Tile>
+    <Navigation.Tile
+      href="/admin/files"
+      label="Files"
+      selected={$page.url.pathname.startsWith('/admin/files')}
+    >
+      <span><i class="fa-solid fa-file-arrow-up fa-xl"></i></span>
+    </Navigation.Tile>
+  {/snippet}
 
-  <!-- Bottom -->
-  <svelte:fragment slot="trail">
-    <AppRailAnchor
+  {#snippet footer()}
+    <Navigation.Tile
       href="/settings"
-      title="Settings"
+      label="Settings"
       selected={$page.url.pathname.includes('/settings')}
     >
-      <svelte:fragment slot="lead">
-        <span><i class="fa-solid fa-gear"></i></span>
-      </svelte:fragment>
-      <span>Settings</span>
-    </AppRailAnchor>
-  </svelte:fragment>
-</AppRail>
+      <span><i class="fa-solid fa-gear fa-xl"></i></span>
+    </Navigation.Tile>
+  {/snippet}
+</Navigation.Rail>
