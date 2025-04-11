@@ -6,7 +6,7 @@ if (!env.GEMINI_API_KEY) throw new Error('GEMINI_API_KEY is not set');
 
 const genAI = new GoogleGenerativeAI(env.GEMINI_API_KEY);
 
-const modelId = 'gemini-1.5-flash';
+const modelId = 'gemini-2.0-flash';
 const model = genAI.getGenerativeModel({
   model: modelId,
   systemInstruction:
@@ -25,7 +25,6 @@ export const generateResponse = async (userId: number, prompt: string) => {
     const chat = model.startChat({
       history: chatHistoryStore.getHistory(userId),
       generationConfig: {
-        // maxOutputTokens: 256,
         temperature: 0.7,
       },
     });

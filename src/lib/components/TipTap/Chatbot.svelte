@@ -45,7 +45,14 @@
       const { done, value: chunk } = await reader.read();
       if (done) break;
 
-      const decodedChunk = decoder.decode(chunk, { stream: true });
+      let decodedChunk = decoder.decode(chunk, { stream: true });
+      if (decodedChunk.startsWith('```html')) {
+        decodedChunk = decodedChunk.slice(7);
+      }
+      if (decodedChunk.endsWith('```')) {
+        decodedChunk = decodedChunk.slice(0, -3);
+      }
+
       typeWriter.add(decodedChunk);
     }
     const finalChunk = decoder.decode();

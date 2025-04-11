@@ -68,7 +68,7 @@
     {/if}
   </label>
 
-  <Accordion>
+  <Accordion collapsible>
     <Accordion.Item value="excerpt">
       {#snippet lead()}
         <span><i class="fa fa-list"></i></span>
