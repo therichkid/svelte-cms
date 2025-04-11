@@ -46,7 +46,7 @@
   };
 </script>
 
-<div class="direction card flex w-fit items-center gap-2 p-2 shadow-xl">
+<div class="direction card bg-surface-800 flex w-fit items-center gap-2 p-2 shadow-xl">
   <select class="select w-36">
     <option
       onclick={() => editor.chain().focus().setParagraph().run()}
@@ -80,10 +80,11 @@
     </option>
   </select>
 
-  <div class="preset-tonal">
+  <div class="btn-group">
     <button
       type="button"
       onclick={() => editor.chain().focus().toggleBold().run()}
+      class="btn-icon"
       class:preset-filled-primary-500={activeNodes.has('bold')}
       aria-label="Bold"
     >
@@ -92,6 +93,7 @@
     <button
       type="button"
       onclick={() => editor.chain().focus().toggleItalic().run()}
+      class="btn-icon"
       class:preset-filled-primary-500={activeNodes.has('italic')}
       aria-label="Italic"
     >
@@ -100,6 +102,7 @@
     <button
       type="button"
       onclick={() => editor.chain().focus().toggleUnderline().run()}
+      class="btn-icon"
       class:preset-filled-primary-500={activeNodes.has('underline')}
       aria-label="Underline"
     >
@@ -108,6 +111,7 @@
     <button
       type="button"
       onclick={() => editor.chain().focus().toggleStrike().run()}
+      class="btn-icon"
       class:preset-filled-primary-500={activeNodes.has('strike')}
       aria-label="Strike"
     >
